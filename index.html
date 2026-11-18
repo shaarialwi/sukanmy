@@ -1,2031 +1,1001 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SukanMY — Malaysia National Sports Event Tracker</title>
-  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
-          },
-          colors: {
-            navy: {
-              950: '#080D1A',
-              900: '#0F172A',
-              800: '#1E293B',
-              700: '#334155',
-            },
-            royal: {
-              600: '#1D4ED8',
-              700: '#1E40AF',
-            },
-            jalurRed: '#DC2626',
-            jalurGold: '#F59E0B',
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* Custom subtle scrollbar & utility styles */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #F8FAFC;
-      color: #0F172A;
-    }
-    .jalur-stripe {
-      background: linear-gradient(90deg, #1D4ED8 0%, #1D4ED8 30%, #DC2626 30%, #DC2626 65%, #F59E0B 65%, #F59E0B 100%);
-    }
-    .hero-pattern {
-      background-color: #0F172A;
-      background-image: radial-gradient(rgba(29, 78, 216, 0.25) 1px, transparent 1px), radial-gradient(rgba(245, 158, 11, 0.12) 1px, #0F172A 1px);
-      background-size: 28px 28px;
-      background-position: 0 0, 14px 14px;
-    }
-    .ticket-cutout {
-      position: relative;
-    }
-    .ticket-cutout::before,
-    .ticket-cutout::after {
-      content: '';
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      background-color: #F8FAFC;
-      border-radius: 9999px;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 10;
-    }
-    .ticket-cutout::before {
-      left: -12px;
-      box-shadow: inset -2px 0 3px rgba(15, 23, 42, 0.08);
-    }
-    .ticket-cutout::after {
-      right: -12px;
-      box-shadow: inset 2px 0 3px rgba(15, 23, 42, 0.08);
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      animation: fadeIn 0.25s ease-out forwards;
-    }
-  </style>
-</head>
-<body class="min-h-screen flex flex-col antialiased selection:bg-royal-600 selection:text-white">
-
-  <!-- Top Jalur Gemilang Accent Bar -->
-  <div class="h-1.5 w-full jalur-stripe sticky top-0 z-50"></div>
-
-  <!-- Main Sticky Navigation Header -->
-  <header class="bg-navy-900 text-white sticky top-1.5 z-40 shadow-lg border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <!-- Brand Logo -->
-        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('discover')">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-royal-600 via-blue-700 to-navy-950 border border-blue-400/30 flex items-center justify-center shadow-md relative overflow-hidden">
-            <svg class="w-6 h-6 text-jalurGold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
-            <span class="absolute bottom-0 inset-x-0 h-1 bg-jalurRed"></span>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-display font-extrabold text-xl tracking-tight text-white">Sukan<span class="text-jalurGold">MY</span></span>
-              <span class="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-royal-600/30 text-blue-200 border border-blue-500/30">
-                National Hub
-              </span>
-            </div>
-            <p class="text-[11px] text-slate-400 hidden sm:block">Malaysia Sports Event &amp; Participation Tracker</p>
-          </div>
-        </div>
-
+<!-- ... existing code ... -->
         <!-- Desktop Navigation Tabs -->
-        <nav class="hidden md:flex items-center space-x-1 bg-navy-950/60 p-1 rounded-xl border border-slate-800">
-          <button onclick="switchTab('discover')" id="nav-discover" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 bg-royal-600 text-white shadow-sm">
+        <nav class="hidden md:flex items-center space-x-1 bg-navy-950/70 p-1 rounded-xl border border-slate-800">
+          <button onclick="switchTab('discover')" id="nav-discover" class="nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-sm">
             <i data-lucide="compass" class="w-4 h-4"></i>
             <span>Discover Events</span>
           </button>
-          <button onclick="switchTab('post')" id="nav-post" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-2">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>Post Event</span>
+          <button onclick="switchTab('calendar')" id="nav-calendar" class="nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-1.5">
+            <i data-lucide="calendar-days" class="w-4 h-4 text-emerald-400"></i>
+            <span>Event Calendar</span>
           </button>
-          <button onclick="switchTab('tickets')" id="nav-tickets" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-2">
-            <i data-lucide="ticket" class="w-4 h-4"></i>
-            <span>My Tickets</span>
-            <span id="ticket-count-badge" class="hidden px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-jalurGold text-navy-950">0</span>
-          </button>
-          <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-2">
+          <button onclick="switchTab('analytics')" id="nav-analytics" class="nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-1.5">
             <i data-lucide="bar-chart-3" class="w-4 h-4 text-jalurGold"></i>
-            <span>KBS Analytics</span>
+            <span>KBS Data Dashboard</span>
+          </button>
+          <button onclick="switchTab('tickets')" id="nav-tickets" class="nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-1.5">
+            <i data-lucide="ticket" class="w-4 h-4"></i>
+            <span>My Tickets &amp; Events</span>
+            <span id="ticket-count-badge" class="hidden px-1.5 py-0.5 text-[10px] font-bold rounded-full bg-jalurGold text-navy-950">0</span>
           </button>
         </nav>
 
-        <!-- Auth / User Profile Controls -->
-        <div id="header-auth-area" class="flex items-center gap-2">
-          <!-- Populated dynamically by JS -->
+        <!-- Right Controls: Post Event, Supabase Status Pill, DB Settings & Auth -->
+        <div class="flex items-center gap-2">
+          <!-- + Post Event Button -->
+          <button onclick="openPostEventModal()" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Post Event</span>
+          </button>
+
+          <!-- Live Supabase Connection Status Pill + DB Settings Trigger -->
+          <button onclick="openDbSettingsModal()" id="supabase-status-pill" title="Configure Supabase Connection" class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-bold transition bg-amber-500/15 border-amber-400/40 text-amber-300 hover:bg-amber-500/25">
+            <span id="supabase-status-dot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+            <span id="supabase-status-text">Demo Mode</span>
+            <i data-lucide="settings" class="w-3.5 h-3.5 opacity-80"></i>
+          </button>
+
+          <!-- Auth / User Profile Controls -->
+          <div id="header-auth-area" class="flex items-center gap-2">
+            <!-- Populated dynamically by JS -->
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Mobile Navigation Bar -->
-    <div class="md:hidden border-t border-slate-800 bg-navy-950/90 px-2 py-1.5 grid grid-cols-4 gap-1">
-      <button onclick="switchTab('discover')" id="m-nav-discover" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold bg-royal-600 text-white">
+    <div class="md:hidden border-t border-slate-800 bg-navy-950/95 px-2 py-1.5 grid grid-cols-5 gap-1">
+      <button onclick="switchTab('discover')" id="m-nav-discover" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold bg-royal-600 text-white">
         <i data-lucide="compass" class="w-4 h-4 mb-0.5"></i>
         <span>Discover</span>
       </button>
-      <button onclick="switchTab('post')" id="m-nav-post" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold text-slate-400">
-        <i data-lucide="plus-circle" class="w-4 h-4 mb-0.5"></i>
-        <span>Post Event</span>
+      <button onclick="switchTab('calendar')" id="m-nav-calendar" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-slate-400">
+        <i data-lucide="calendar-days" class="w-4 h-4 mb-0.5 text-emerald-400"></i>
+        <span>Calendar</span>
       </button>
-      <button onclick="switchTab('tickets')" id="m-nav-tickets" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold text-slate-400 relative">
-        <i data-lucide="ticket" class="w-4 h-4 mb-0.5"></i>
-        <span>Tickets</span>
-        <span id="m-ticket-count-badge" class="hidden absolute top-1 right-4 px-1.5 text-[9px] font-bold rounded-full bg-jalurGold text-navy-950">0</span>
-      </button>
-      <button onclick="switchTab('analytics')" id="m-nav-analytics" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold text-slate-400">
+      <button onclick="switchTab('analytics')" id="m-nav-analytics" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-slate-400">
         <i data-lucide="bar-chart-3" class="w-4 h-4 mb-0.5 text-jalurGold"></i>
         <span>KBS Data</span>
       </button>
+      <button onclick="switchTab('tickets')" id="m-nav-tickets" class="m-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 relative">
+        <i data-lucide="ticket" class="w-4 h-4 mb-0.5"></i>
+        <span>Passes</span>
+        <span id="m-ticket-count-badge" class="hidden absolute top-1 right-2 px-1.5 text-[9px] font-bold rounded-full bg-jalurGold text-navy-950">0</span>
+      </button>
+      <button onclick="openPostEventModal()" class="flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-emerald-400">
+        <i data-lucide="plus-circle" class="w-4 h-4 mb-0.5"></i>
+        <span>+ Post</span>
+      </button>
     </div>
   </header>
-
-  <!-- Hero Banner (Shown on Discover Tab) -->
-  <section id="hero-banner" class="hero-pattern text-white border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-        <div class="max-w-2xl">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/90 border border-slate-700 text-xs font-medium text-amber-300 mb-3">
-            <span class="w-2 h-2 rounded-full bg-jalurGold animate-pulse"></span>
-            <span>Proposed Digital Infrastructure for Kementerian Belia dan Sukan (KBS)</span>
-          </div>
-          <h1 class="font-display text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-            One Unified Platform for Every <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-jalurGold to-red-400">Malaysian Sports Event</span>
-          </h1>
-          <p class="mt-2.5 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Connecting grassroots communities, verified event organizers, and national sports enthusiasts across all 13 states and 3 Federal Territories—powering Malaysia's sports economy and active lifestyle agenda.
-          </p>
-        </div>
-
-        <!-- Stakeholder 1-Click Demo Bar -->
-        <div id="demo-quick-bar" class="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-4 sm:p-5 shadow-xl lg:w-[390px] shrink-0">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-bold uppercase tracking-wider text-jalurGold flex items-center gap-1.5">
-              <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-              Instant Stakeholder Preview
-            </span>
-            <span class="text-[11px] text-slate-400">1-Click Demo Access</span>
-          </div>
-          <p class="text-xs text-slate-300 mb-3">
-            Test Phase 1 &amp; Phase 2 features immediately using pre-configured Malaysian stakeholder profiles:
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-2">
-            <button onclick="quickDemoLogin('enthusiast')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-royal-600 hover:bg-blue-500 text-white text-xs font-semibold transition shadow-sm">
-              <span class="flex items-center gap-2">
-                <i data-lucide="user-check" class="w-4 h-4"></i>
-                <span>Sports Enthusiast (Aiman)</span>
-              </span>
-              <span class="text-[10px] bg-blue-800/80 px-2 py-0.5 rounded-md">Selangor</span>
-            </button>
-            <button onclick="quickDemoLogin('organizer')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-xs font-semibold transition">
-              <span class="flex items-center gap-2">
-                <i data-lucide="badge-check" class="w-4 h-4 text-emerald-400"></i>
-                <span>Verified Organizer (ProRun)</span>
-              </span>
-              <span class="text-[10px] bg-slate-700 px-2 py-0.5 rounded-md">Phase 2</span>
-            </button>
-            <button onclick="quickDemoLogin('kbs')" class="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-amber-500/40 text-amber-200 text-xs font-semibold transition">
-              <span class="flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-4 h-4 text-jalurGold"></i>
-                <span>KBS Policy Officer</span>
-              </span>
-              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md">Putrajaya</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-
-    <!-- ==================== TAB 1: DISCOVER EVENTS ==================== -->
-    <section id="tab-discover" class="space-y-6 animate-fade-in">
-      <!-- Auth Gate Notice Banner (Only visible when logged out) -->
-      <div id="guest-gate-banner" class="bg-gradient-to-r from-navy-900 via-blue-950 to-navy-900 border border-blue-800/60 rounded-2xl p-4 sm:p-5 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
-        <div class="flex items-start sm:items-center gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-jalurRed/20 border border-jalurRed/40 flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-            <i data-lucide="lock" class="w-5 h-5 text-red-400"></i>
-          </div>
-          <div>
-            <h2 class="text-sm sm:text-base font-bold text-white">Phase 1 Member Gate Active — Guest Preview Mode</h2>
-            <p class="text-xs sm:text-sm text-slate-300 mt-0.5">
-              Sign in or register (takes 10 seconds) to unlock exact event venues, post community/organizer events, and book Digital QR Tickets.
-            </p>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto shrink-0">
-          <button onclick="openAuthModal('register')" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-jalurGold hover:bg-amber-400 text-navy-950 font-bold text-xs sm:text-sm transition shadow">
-            Register Free
-          </button>
-          <button onclick="openAuthModal('login')" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-semibold text-xs sm:text-sm transition">
-            Sign In
-          </button>
-        </div>
-      </div>
-
-      <!-- Filter & Search Control Panel -->
-      <div class="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-sm space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3">
-          <!-- Search Input -->
-          <div class="md:col-span-5 relative">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
-            <input
-              type="text"
-              id="filter-search"
-              oninput="renderEvents()"
-              placeholder="Search event name, city, or venue..."
-              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-royal-600 focus:ring-2 focus:ring-royal-600/20 text-sm outline-none transition"
-            />
-          </div>
-
-          <!-- Malaysian State Selector -->
-          <div class="md:col-span-4 relative">
-            <i data-lucide="map-pin" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-            <select
-              id="filter-state"
-              onchange="renderEvents()"
-              class="w-full pl-10 pr-8 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-royal-600 focus:ring-2 focus:ring-royal-600/20 text-sm font-medium text-slate-700 outline-none transition appearance-none"
-            >
-              <option value="All">All Malaysian States (16)</option>
-              <option value="Kuala Lumpur">W.P. Kuala Lumpur</option>
-              <option value="Selangor">Selangor</option>
-              <option value="Putrajaya">W.P. Putrajaya</option>
-              <option value="Johor">Johor</option>
-              <option value="Pulau Pinang">Pulau Pinang</option>
-              <option value="Perak">Perak</option>
-              <option value="Kedah">Kedah</option>
-              <option value="Kelantan">Kelantan</option>
-              <option value="Terengganu">Terengganu</option>
-              <option value="Pahang">Pahang</option>
-              <option value="Negeri Sembilan">Negeri Sembilan</option>
-              <option value="Melaka">Melaka</option>
-              <option value="Sabah">Sabah</option>
-              <option value="Sarawak">Sarawak</option>
-              <option value="Perlis">Perlis</option>
-              <option value="Labuan">W.P. Labuan</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-
-          <!-- Event Tier / Organizer Type Filter -->
-          <div class="md:col-span-3 relative">
-            <i data-lucide="award" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-            <select
-              id="filter-type"
-              onchange="renderEvents()"
-              class="w-full pl-10 pr-8 py-2.5 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-royal-600 focus:ring-2 focus:ring-royal-600/20 text-sm font-medium text-slate-700 outline-none transition appearance-none"
-            >
-              <option value="All">All Event Tiers</option>
-              <option value="KBS Official">KBS Official</option>
-              <option value="Verified Organizer">Verified Organizer</option>
-              <option value="Community">Community</option>
-            </select>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-          </div>
-        </div>
-
-        <!-- Sport Category Pills -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar" id="sport-pills-container">
-          <!-- Rendered dynamically -->
-        </div>
-      </div>
-
-      <!-- Results Count & Active Status -->
-      <div class="flex flex-wrap items-center justify-between gap-2">
+<!-- ... existing code ... -->
+      <!-- Results Count, View Switcher & Refresh -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
         <p class="text-sm text-slate-600 font-medium">
           Showing <span id="events-showing-count" class="font-bold text-navy-900">0</span> sports events across Malaysia
         </p>
-        <button onclick="resetFilters()" class="text-xs font-semibold text-royal-600 hover:text-blue-800 flex items-center gap-1">
-          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          <span>Reset Filters</span>
-        </button>
+
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <!-- Segmented View Toggle: Card View | Calendar View -->
+          <div class="inline-flex items-center bg-slate-200/80 p-1 rounded-xl border border-slate-300/70">
+            <button onclick="setDiscoverDisplayMode('cards')" id="btn-view-cards" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-navy-900 shadow-xs">
+              <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-royal-600"></i>
+              <span>Card View</span>
+            </button>
+            <button onclick="setDiscoverDisplayMode('calendar')" id="btn-view-calendar" class="px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-navy-900">
+              <i data-lucide="calendar-days" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>Calendar View</span>
+            </button>
+          </div>
+
+          <button onclick="fetchAllData()" class="text-xs font-semibold text-slate-600 hover:text-navy-900 flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-slate-100 transition">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Refresh</span>
+          </button>
+          <button onclick="resetFilters()" class="text-xs font-semibold text-royal-600 hover:text-blue-800 flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-blue-50 transition">
+            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+            <span>Reset Filters</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Events Grid -->
+      <!-- Events Grid (Card View) -->
       <div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Event cards injected here -->
       </div>
-    </section>
 
-    <!-- ==================== TAB 2: POST EVENT PORTAL ==================== -->
-    <section id="tab-post" class="hidden animate-fade-in">
-      <!-- Gatekeeper if not logged in -->
-      <div id="post-gatekeeper" class="hidden max-w-xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
-        <div class="w-14 h-14 rounded-2xl bg-blue-50 text-royal-600 flex items-center justify-center mx-auto mb-4">
-          <i data-lucide="lock" class="w-7 h-7"></i>
-        </div>
-        <h2 class="font-display text-xl font-extrabold text-navy-900">Account Required to Publish Events</h2>
-        <p class="text-sm text-slate-600 mt-2 leading-relaxed">
-          To prevent spam and ensure accountability across Malaysia's sports calendar, please register or sign in as a Sports Enthusiast, Event Organizer, or KBS Officer.
-        </p>
-        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button onclick="openAuthModal('register')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-semibold text-sm transition">
-            Create Free Account
-          </button>
-          <button onclick="quickDemoLogin('organizer')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-navy-900 font-semibold text-sm transition">
-            1-Click Demo Organizer Login
-          </button>
-        </div>
-      </div>
-
-      <!-- Post Event Form (When logged in) -->
-      <div id="post-form-container" class="max-w-3xl mx-auto">
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="bg-navy-900 px-6 py-5 text-white border-b border-slate-800">
-            <div class="flex items-center justify-between">
-              <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-jalurGold">Phase 1 &amp; Phase 2 Submission Portal</span>
-                <h2 class="font-display text-xl font-extrabold mt-0.5">Publish a Malaysian Sports Event</h2>
-              </div>
-              <i data-lucide="calendar-plus" class="w-7 h-7 text-blue-400"></i>
-            </div>
-            <p class="text-xs text-slate-300 mt-1">
-              Submitted events immediately go live on the national feed and contribute to KBS state participation analytics.
-            </p>
-          </div>
-
-          <form id="post-event-form" onsubmit="handlePostEvent(event)" class="p-6 space-y-5">
-            <!-- Listing Mode Selector (Phase 1 vs Phase 2) -->
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Select Listing Mode</label>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label class="cursor-pointer">
-                  <input type="radio" name="listingMode" value="Community" checked onchange="toggleOrganizerFields()" class="peer sr-only" />
-                  <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-royal-600 peer-checked:bg-blue-50/50 transition">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-bold text-navy-900">Phase 1: Community Listing</span>
-                      <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-200 text-slate-700">Free / Casual</span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-1">For local clubs, weekend friendly matches, hiking groups, and open community sessions.</p>
-                  </div>
-                </label>
-
-                <label class="cursor-pointer">
-                  <input type="radio" name="listingMode" value="Verified Organizer" onchange="toggleOrganizerFields()" class="peer sr-only" />
-                  <div class="p-4 rounded-xl border-2 border-slate-200 peer-checked:border-royal-600 peer-checked:bg-blue-50/50 transition">
-                    <div class="flex items-center justify-between">
-                      <span class="text-sm font-bold text-navy-900">Phase 2: Organizer Ticketing</span>
-                      <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Paid / QR Tickets</span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-1">For registered event organizers running marathons, tournaments, and ticketed leagues.</p>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="sm:col-span-2">
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Event Title *</label>
-                <input type="text" id="ev-title" required placeholder="e.g., Putrajaya Lakefront 10KM Fun Run 2026" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 focus:ring-2 focus:ring-royal-600/20 text-sm outline-none" />
+      <!-- Interactive Event Calendar Workspace (Month & Week Views) -->
+      <div id="calendar-workspace" class="hidden space-y-5 animate-fade-in">
+        <!-- Calendar Controls & Legend Card -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-sm space-y-4">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <!-- Date Navigation Controls -->
+            <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+              <div class="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 p-1">
+                <button onclick="navigateCalendar(-1)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:bg-white hover:text-navy-900 transition flex items-center gap-1">
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  <span>Prev</span>
+                </button>
+                <button onclick="goToCalendarToday()" class="px-3 py-1.5 rounded-lg text-xs font-bold text-royal-600 hover:bg-white transition border-x border-slate-200/80">
+                  Today
+                </button>
+                <button onclick="navigateCalendar(1)" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:bg-white hover:text-navy-900 transition flex items-center gap-1">
+                  <span>Next</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
               </div>
 
               <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Sport Category *</label>
-                <select id="ev-sport" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none bg-white">
-                  <option value="Running">Running</option>
-                  <option value="Badminton">Badminton</option>
-                  <option value="Futsal/Football">Futsal / Football</option>
-                  <option value="Cycling">Cycling</option>
-                  <option value="E-Sports">E-Sports</option>
-                  <option value="Pickleball">Pickleball</option>
-                  <option value="Sukan Rakyat">Sukan Rakyat</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">State / Negeri *</label>
-                <select id="ev-state" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none bg-white">
-                  <option value="Kuala Lumpur">W.P. Kuala Lumpur</option>
-                  <option value="Selangor">Selangor</option>
-                  <option value="Putrajaya">W.P. Putrajaya</option>
-                  <option value="Johor">Johor</option>
-                  <option value="Pulau Pinang">Pulau Pinang</option>
-                  <option value="Perak">Perak</option>
-                  <option value="Kedah">Kedah</option>
-                  <option value="Kelantan">Kelantan</option>
-                  <option value="Terengganu">Terengganu</option>
-                  <option value="Pahang">Pahang</option>
-                  <option value="Negeri Sembilan">Negeri Sembilan</option>
-                  <option value="Melaka">Melaka</option>
-                  <option value="Sabah">Sabah</option>
-                  <option value="Sarawak">Sarawak</option>
-                  <option value="Perlis">Perlis</option>
-                  <option value="Labuan">W.P. Labuan</option>
-                </select>
-              </div>
-
-              <div class="sm:col-span-2">
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Exact Venue &amp; City *</label>
-                <input type="text" id="ev-venue" required placeholder="e.g., Dataran Putrajaya, Presint 3, Putrajaya" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Event Date *</label>
-                <input type="date" id="ev-date" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Start Time *</label>
-                <input type="time" id="ev-time" required value="07:30" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Registration Fee (RM)</label>
-                <input type="number" id="ev-price" min="0" step="1" value="0" placeholder="0 for Free Entry" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-                <p class="text-[11px] text-slate-500 mt-1">Enter 0 for free admission.</p>
-              </div>
-
-              <div>
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Max Participant Capacity *</label>
-                <input type="number" id="ev-capacity" min="10" max="50000" required value="200" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-              </div>
-
-              <div class="sm:col-span-2">
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Categories / Divisions (comma-separated)</label>
-                <input type="text" id="ev-categories" value="Men's Open, Women's Open, Youth (U-21)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-              </div>
-
-              <div class="sm:col-span-2">
-                <label class="block text-sm font-semibold text-navy-900 mb-1">Event Description &amp; Entitlements *</label>
-                <textarea id="ev-desc" rows="3" required placeholder="Describe race kit entitlements, tournament format, prizes, or community gathering details..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none"></textarea>
+                <h3 id="calendar-period-label" class="font-display text-lg sm:text-xl font-extrabold text-navy-900 tracking-tight">
+                  November 2026
+                </h3>
+                <p id="calendar-period-sub" class="text-[11px] font-medium text-slate-500">
+                  Click any event to view details or book participant passes
+                </p>
               </div>
             </div>
 
-            <div class="pt-2 flex items-center justify-end gap-3 border-t border-slate-100">
-              <button type="button" onclick="switchTab('discover')" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition">
-                Cancel
-              </button>
-              <button type="submit" class="px-6 py-2.5 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow-sm flex items-center gap-2">
-                <i data-lucide="send" class="w-4 h-4"></i>
-                <span>Publish Event Now</span>
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== TAB 3: MY TICKETS (PHASE 2) ==================== -->
-    <section id="tab-tickets" class="hidden animate-fade-in">
-      <div id="tickets-gatekeeper" class="hidden max-w-xl mx-auto bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
-        <div class="w-14 h-14 rounded-2xl bg-amber-50 text-jalurGold flex items-center justify-center mx-auto mb-4">
-          <i data-lucide="ticket" class="w-7 h-7"></i>
-        </div>
-        <h2 class="font-display text-xl font-extrabold text-navy-900">Sign In to View Your Digital E-Tickets</h2>
-        <p class="text-sm text-slate-600 mt-2">
-          Your Phase 2 event registrations, DuitNow/FPX receipts, and scannable QR entry passes are stored securely in your SukanMY profile.
-        </p>
-        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button onclick="openAuthModal('login')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-semibold text-sm transition">
-            Sign In / Register
-          </button>
-          <button onclick="quickDemoLogin('enthusiast')" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-navy-900 font-semibold text-sm transition">
-            1-Click Demo Enthusiast
-          </button>
-        </div>
-      </div>
-
-      <div id="tickets-content" class="space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h2 class="font-display text-2xl font-extrabold text-navy-900">My Digital QR Passes</h2>
-            <p class="text-sm text-slate-600">Present these QR codes at event check-in counters or race pack collection booths.</p>
-          </div>
-          <button onclick="switchTab('discover')" class="self-start sm:self-auto px-4 py-2 rounded-xl bg-royal-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center gap-1.5">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Browse More Events</span>
-          </button>
-        </div>
-
-        <div id="tickets-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <!-- Tickets injected here -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== TAB 4: KBS EXECUTIVE ANALYTICS ==================== -->
-    <section id="tab-analytics" class="hidden space-y-6 animate-fade-in">
-      <!-- Executive Header -->
-      <div class="bg-navy-900 text-white rounded-2xl p-6 sm:p-8 border border-slate-800 shadow-lg relative overflow-hidden">
-        <div class="absolute right-0 top-0 w-64 h-64 bg-royal-600/10 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none"></div>
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
-          <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-jalurGold/20 border border-jalurGold/40 text-amber-300 text-xs font-bold mb-2">
-              <i data-lucide="landmark" class="w-3.5 h-3.5"></i>
-              <span>KEMENTERIAN BELIA DAN SUKAN (KBS) — NATIONAL DASHBOARD</span>
-            </div>
-            <h2 class="font-display text-2xl sm:text-3xl font-extrabold">National Sports Ecosystem Telemetry</h2>
-            <p class="text-sm text-slate-300 mt-1 max-w-2xl">
-              Live aggregated data tracking grassroots participation, geographic distribution across Malaysian states, and direct sports tourism/registration economic impact.
-            </p>
-          </div>
-          <div class="bg-slate-800/80 border border-slate-700 rounded-xl p-3.5 text-xs text-slate-300 shrink-0">
-            <div class="font-bold text-white flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>Live Sync Active</span>
-            </div>
-            <p class="mt-1 text-slate-400">Updates automatically when events<br/>are posted or tickets are booked.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4 Top KPI Metric Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Registered Enthusiasts</span>
-            <div class="w-9 h-9 rounded-xl bg-blue-50 text-royal-600 flex items-center justify-center">
-              <i data-lucide="users" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div id="kpi-users" class="font-display text-3xl font-extrabold text-navy-900 mt-3">14,820</div>
-          <p class="text-xs text-emerald-600 font-semibold mt-1 flex items-center gap-1">
-            <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-            <span>+18.4% vs last quarter</span>
-          </p>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Active Events Nationwide</span>
-            <div class="w-9 h-9 rounded-xl bg-red-50 text-jalurRed flex items-center justify-center">
-              <i data-lucide="calendar-check" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div id="kpi-events" class="font-display text-3xl font-extrabold text-navy-900 mt-3">8</div>
-          <p class="text-xs text-slate-500 font-medium mt-1">Across Peninsular, Sabah &amp; Sarawak</p>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Participants</span>
-            <div class="w-9 h-9 rounded-xl bg-amber-50 text-jalurGold flex items-center justify-center">
-              <i data-lucide="medal" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div id="kpi-participants" class="font-display text-3xl font-extrabold text-navy-900 mt-3">0</div>
-          <p class="text-xs text-slate-500 font-medium mt-1">Confirmed slots across all tiers</p>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Sports Economy Value</span>
-            <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-              <i data-lucide="banknote" class="w-5 h-5"></i>
-            </div>
-          </div>
-          <div id="kpi-economy" class="font-display text-3xl font-extrabold text-navy-900 mt-3">RM 0</div>
-          <p class="text-xs text-emerald-600 font-semibold mt-1">Direct ticket &amp; SME organizer GMV</p>
-        </div>
-      </div>
-
-      <!-- Charts Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Events & Participation by State -->
-        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-display text-lg font-extrabold text-navy-900">Active Events &amp; Participation by State</h3>
-              <p class="text-xs text-slate-500">Geographic footprint for KBS state-level facility &amp; grant allocation</p>
-            </div>
-            <span class="text-xs font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700">Live Breakdown</span>
-          </div>
-          <div id="state-breakdown-chart" class="space-y-3.5">
-            <!-- Bars rendered via JS -->
-          </div>
-        </div>
-
-        <!-- Popular Sports Distribution & Policy Notes -->
-        <div class="lg:col-span-5 space-y-6">
-          <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-            <h3 class="font-display text-lg font-extrabold text-navy-900">Popular Sports Distribution</h3>
-            <p class="text-xs text-slate-500 mb-4">Share of active events &amp; community demand by discipline</p>
-            <div id="sport-breakdown-chart" class="space-y-3">
-              <!-- Sport bars rendered via JS -->
+            <!-- Month View vs Week View Switcher -->
+            <div class="flex items-center gap-2 self-start lg:self-auto">
+              <div class="inline-flex items-center bg-navy-950 p-1 rounded-xl border border-slate-800">
+                <button onclick="setCalendarViewMode('month')" id="cal-mode-month" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-xs">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+                  <span>Month View</span>
+                </button>
+                <button onclick="setCalendarViewMode('week')" id="cal-mode-week" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-white">
+                  <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
+                  <span>Week View</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gradient-to-br from-royal-600 to-navy-900 rounded-2xl p-6 text-white shadow-md">
-            <h4 class="font-display font-extrabold text-base flex items-center gap-2">
-              <i data-lucide="sparkles" class="w-4 h-4 text-jalurGold"></i>
-              <span>KBS Strategic Alignment</span>
-            </h4>
-            <ul class="mt-3 space-y-2 text-xs text-blue-100">
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-jalurGold shrink-0 mt-0.5"></i>
-                <span><strong>Hari Sukan Negara Ready:</strong> Instant nationwide registration &amp; QR attendance tracking.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-jalurGold shrink-0 mt-0.5"></i>
-                <span><strong>Local SME Empowerment:</strong> Zero-friction DuitNow &amp; FPX onboarding for local organizers.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-jalurGold shrink-0 mt-0.5"></i>
-                <span><strong>Data-Driven Policy:</strong> Identifies underserved districts for Rakan Muda activation.</span>
-              </li>
-            </ul>
+          <!-- Color-Coded Sport Legend & Organizer Tier Key -->
+          <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-[11px]">
+            <div id="calendar-sport-legend" class="flex flex-wrap items-center gap-x-3.5 gap-y-1.5">
+              <!-- Populated dynamically -->
+            </div>
+            <div class="flex items-center gap-3 text-slate-600 font-semibold">
+              <span class="inline-flex items-center gap-1">
+                <span class="w-2.5 h-2.5 rounded-xs bg-jalurGold border border-amber-500"></span>
+                Official Organizer
+              </span>
+              <span class="inline-flex items-center gap-1">
+                <span class="w-2.5 h-2.5 rounded-xs bg-slate-200 border border-slate-400"></span>
+                Community
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month View Grid Container -->
+        <div id="calendar-month-container" class="bg-white rounded-2xl border border-slate-200/90 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <div class="min-w-[760px]">
+              <!-- Mon - Sun Header -->
+              <div class="grid grid-cols-7 bg-navy-900 text-white text-xs font-bold uppercase tracking-wider border-b border-slate-800">
+                <div class="py-3 px-3 text-center">Mon</div>
+                <div class="py-3 px-3 text-center">Tue</div>
+                <div class="py-3 px-3 text-center">Wed</div>
+                <div class="py-3 px-3 text-center">Thu</div>
+                <div class="py-3 px-3 text-center">Fri</div>
+                <div class="py-3 px-3 text-center text-amber-300">Sat</div>
+                <div class="py-3 px-3 text-center text-amber-300">Sun</div>
+              </div>
+              <!-- 7-Column Days Grid -->
+              <div id="calendar-month-grid" class="grid grid-cols-7 divide-x divide-y divide-slate-200 bg-slate-50/40">
+                <!-- Day cells injected via JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Week View Schedule Container -->
+        <div id="calendar-week-container" class="hidden">
+          <div id="calendar-week-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3.5">
+            <!-- 7-day weekly schedule columns injected via JS -->
           </div>
         </div>
       </div>
     </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-navy-950 text-slate-400 border-t border-slate-800 mt-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="font-display font-extrabold text-lg text-white">Sukan<span class="text-jalurGold">MY</span></span>
-            <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300">v1.0 GitHub Pages Edition</span>
-          </div>
-          <p class="text-xs text-slate-400 mt-1">
-            National Sports Event Discovery, Community Engagement &amp; Digital Ticketing Ecosystem for Malaysia.
-          </p>
-        </div>
-        <div class="flex flex-wrap items-center gap-3 text-xs">
-          <button onclick="openGithubGuideModal()" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold flex items-center gap-1.5 transition">
-            <i data-lucide="github" class="w-4 h-4"></i>
-            <span>GitHub Pages Hosting Guide</span>
-          </button>
-          <button onclick="resetDemoData()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-medium transition">
-            Reset Demo Data
+<!-- ... existing code ... -->
+        <!-- Already Registered Notice -->
+        <div id="already-registered-box" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-center space-y-2">
+          <div class="text-sm font-extrabold text-emerald-800">You are already registered for this event!</div>
+          <p class="text-xs text-emerald-700">Your digital pass and QR code are ready in the My Tickets &amp; Events tab.</p>
+          <button type="button" onclick="closeModal('register-event-modal'); switchTab('tickets');" class="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700 transition">
+            View My Ticket
           </button>
         </div>
-      </div>
-    </div>
-  </footer>
 
-  <!-- ==================== MODAL 1: SIGN IN / REGISTER ==================== -->
-  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-navy-950/75 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200 animate-fade-in">
-      <div class="bg-navy-900 px-6 py-4 text-white flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <span class="font-display font-extrabold text-lg">Sukan<span class="text-jalurGold">MY</span></span>
-          <span class="text-xs text-slate-300">| Member Access</span>
-        </div>
-        <button onclick="closeModal('auth-modal')" class="text-slate-400 hover:text-white p-1">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <!-- Auth Mode Tabs -->
-      <div class="grid grid-cols-2 border-b border-slate-200 bg-slate-50">
-        <button id="tab-btn-register" onclick="switchAuthMode('register')" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-royal-600 text-royal-600 bg-white">
-          Register Account
-        </button>
-        <button id="tab-btn-login" onclick="switchAuthMode('login')" class="py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500 hover:text-navy-900">
-          Sign In
-        </button>
-      </div>
-
-      <form id="auth-form" onsubmit="handleAuthSubmit(event)" class="p-6 space-y-4">
-        <div id="auth-name-group">
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name *</label>
-          <input type="text" id="auth-name" placeholder="e.g., Nurul Aina binti Zulkifli" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-        </div>
-
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address *</label>
-          <input type="email" id="auth-email" required placeholder="aina@example.my" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-royal-600 text-sm outline-none" />
-        </div>
-
-        <div id="auth-register-extras" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Home State *</label>
-            <select id="auth-state" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm outline-none bg-white">
-              <option value="Selangor">Selangor</option>
-              <option value="Kuala Lumpur">Kuala Lumpur</option>
-              <option value="Putrajaya">Putrajaya</option>
-              <option value="Johor">Johor</option>
-              <option value="Pulau Pinang">Pulau Pinang</option>
-              <option value="Perak">Perak</option>
-              <option value="Kedah">Kedah</option>
-              <option value="Kelantan">Kelantan</option>
-              <option value="Terengganu">Terengganu</option>
-              <option value="Pahang">Pahang</option>
-              <option value="Negeri Sembilan">Negeri Sembilan</option>
-              <option value="Melaka">Melaka</option>
-              <option value="Sabah">Sabah</option>
-              <option value="Sarawak">Sarawak</option>
-              <option value="Perlis">Perlis</option>
-              <option value="Labuan">Labuan</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Account Role *</label>
-            <select id="auth-role" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm outline-none bg-white">
-              <option value="enthusiast">Sports Enthusiast</option>
-              <option value="organizer">Event Organizer</option>
-              <option value="kbs">KBS Officer</option>
-            </select>
-          </div>
-        </div>
-
-        <button type="submit" id="auth-submit-btn" class="w-full py-2.5 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow">
-          Create SukanMY Account
-        </button>
-
-        <div class="pt-3 border-t border-slate-100">
-          <p class="text-[11px] text-center text-slate-500 font-medium mb-2">Or test immediately with 1-Click Stakeholder Demo:</p>
-          <div class="grid grid-cols-3 gap-2">
-            <button type="button" onclick="quickDemoLogin('enthusiast')" class="py-2 px-2 rounded-lg bg-slate-100 hover:bg-blue-50 hover:text-royal-600 text-[11px] font-bold text-slate-700 transition">
-              Enthusiast
+        <!-- Guest Login Prompt inside Event Detail Modal -->
+        <div id="guest-modal-login-box" class="hidden bg-navy-900 text-white rounded-xl p-4 text-center space-y-2.5">
+          <div class="text-sm font-extrabold text-jalurGold">Want to participate in this event?</div>
+          <p class="text-xs text-slate-300">Sign in or register a free SukanMY account to book your slot and receive your <code class="font-mono text-amber-300">SMY-XXXXXX</code> QR check-in pass.</p>
+          <div class="flex items-center justify-center gap-2 pt-1">
+            <button type="button" onclick="closeModal('register-event-modal'); openAuthModal('register');" class="px-4 py-2 rounded-xl bg-jalurGold hover:bg-amber-400 text-navy-950 text-xs font-extrabold transition">
+              Register Free
             </button>
-            <button type="button" onclick="quickDemoLogin('organizer')" class="py-2 px-2 rounded-lg bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-[11px] font-bold text-slate-700 transition">
-              Organizer
-            </button>
-            <button type="button" onclick="quickDemoLogin('kbs')" class="py-2 px-2 rounded-lg bg-slate-100 hover:bg-amber-50 hover:text-amber-700 text-[11px] font-bold text-slate-700 transition">
-              KBS Officer
+            <button type="button" onclick="closeModal('register-event-modal'); openAuthModal('login');" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-xs font-bold transition">
+              Sign In
             </button>
           </div>
         </div>
-      </form>
-    </div>
-  </div>
 
-  <!-- ==================== MODAL 2: EVENT REGISTRATION & PAYMENT (PHASE 2) ==================== -->
-  <div id="register-event-modal" class="hidden fixed inset-0 z-50 bg-navy-950/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+        <!-- Registration Form -->
+        <form id="event-booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-4">
+<!-- ... existing code ... -->
+  <!-- ==================== MODAL 6: DAY EVENTS OVERFLOW MODAL (+N MORE) ==================== -->
+  <div id="day-events-modal" class="hidden fixed inset-0 z-50 bg-navy-950/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 my-8 animate-fade-in">
       <div class="bg-navy-900 px-6 py-4 text-white flex items-center justify-between">
         <div>
-          <span class="text-[10px] font-bold uppercase tracking-wider text-jalurGold">Phase 2 Digital Registration</span>
-          <h3 id="reg-modal-title" class="font-display font-extrabold text-base sm:text-lg leading-snug">Event Registration</h3>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-jalurGold">Daily Sports Schedule</span>
+          <h3 id="day-modal-title" class="font-display font-extrabold text-base sm:text-lg">Events on Date</h3>
         </div>
-        <button onclick="closeModal('register-event-modal')" class="text-slate-400 hover:text-white p-1">
+        <button onclick="closeModal('day-events-modal')" class="text-slate-400 hover:text-white p-1">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
-
-      <form id="event-booking-form" onsubmit="handleBookingSubmit(event)" class="p-6 space-y-4">
-        <input type="hidden" id="reg-event-id" />
-
-        <!-- Event Summary Box -->
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs space-y-1">
-          <div class="flex items-center justify-between text-slate-600">
-            <span id="reg-modal-date" class="font-semibold">Date &amp; Time</span>
-            <span id="reg-modal-price" class="font-extrabold text-sm text-royal-600">RM 0</span>
-          </div>
-          <p id="reg-modal-venue" class="text-slate-500 flex items-center gap-1">
-            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-jalurRed shrink-0"></i>
-            <span>Venue</span>
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Participant Full Name (as per MyKad) *</label>
-            <input type="text" id="reg-fullname" required class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-royal-600" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Category / Division *</label>
-            <select id="reg-category" required class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none bg-white focus:border-royal-600">
-              <!-- Populated dynamically -->
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Event Jersey / Kit Size *</label>
-            <select id="reg-size" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm outline-none bg-white focus:border-royal-600">
-              <option value="XS">XS (Unisex)</option>
-              <option value="S">S (Unisex)</option>
-              <option value="M" selected>M (Unisex)</option>
-              <option value="L">L (Unisex)</option>
-              <option value="XL">XL (Unisex)</option>
-              <option value="2XL">2XL (Unisex)</option>
-            </select>
-          </div>
-
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Emergency Contact Name &amp; Phone (MY) *</label>
-            <input type="text" id="reg-emergency" required placeholder="e.g., Encik Razak (+6012-345 6789)" class="w-full px-3.5 py-2 rounded-xl border border-slate-300 text-sm outline-none focus:border-royal-600" />
-          </div>
-        </div>
-
-        <!-- Malaysian Payment Gateway Simulation -->
-        <div id="payment-method-section">
-          <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Malaysian Payment Method</label>
-          <div class="grid grid-cols-3 gap-2">
-            <label class="cursor-pointer">
-              <input type="radio" name="paymentMethod" value="DuitNow QR" checked class="peer sr-only" />
-              <div class="p-2.5 rounded-xl border-2 border-slate-200 peer-checked:border-pink-600 peer-checked:bg-pink-50/50 text-center transition">
-                <div class="text-xs font-extrabold text-pink-700">DuitNow QR</div>
-                <div class="text-[10px] text-slate-500">Instant</div>
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="paymentMethod" value="Touch 'n Go eWallet" class="peer sr-only" />
-              <div class="p-2.5 rounded-xl border-2 border-slate-200 peer-checked:border-blue-600 peer-checked:bg-blue-50/50 text-center transition">
-                <div class="text-xs font-extrabold text-blue-700">TNG eWallet</div>
-                <div class="text-[10px] text-slate-500">e-Wallet</div>
-              </div>
-            </label>
-            <label class="cursor-pointer">
-              <input type="radio" name="paymentMethod" value="FPX Online Banking" class="peer sr-only" />
-              <div class="p-2.5 rounded-xl border-2 border-slate-200 peer-checked:border-amber-600 peer-checked:bg-amber-50/50 text-center transition">
-                <div class="text-xs font-extrabold text-amber-800">FPX Bank</div>
-                <div class="text-[10px] text-slate-500">Maybank/CIMB</div>
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <div id="free-entry-notice" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-xs text-emerald-800 font-medium flex items-center gap-2">
-          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600 shrink-0"></i>
-          <span>Free National/Community Entry — No payment required. Digital QR Pass will be issued immediately.</span>
-        </div>
-
-        <button type="submit" class="w-full py-3 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-bold text-sm transition shadow-md flex items-center justify-center gap-2">
-          <i data-lucide="qr-code" class="w-4 h-4"></i>
-          <span id="reg-submit-label">Confirm &amp; Generate QR E-Ticket</span>
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <!-- ==================== MODAL 3: GITHUB PAGES DEPLOYMENT GUIDE ==================== -->
-  <div id="github-modal" class="hidden fixed inset-0 z-50 bg-navy-950/75 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-200 animate-fade-in">
-      <div class="bg-navy-900 px-6 py-4 text-white flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <i data-lucide="github" class="w-5 h-5 text-jalurGold"></i>
-          <h3 class="font-display font-extrabold text-base">Host SukanMY on GitHub Pages</h3>
-        </div>
-        <button onclick="closeModal('github-modal')" class="text-slate-400 hover:text-white p-1">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-      <div class="p-6 space-y-4 text-sm text-slate-700">
-        <p class="text-xs text-slate-500">
-          This entire application is engineered as a self-contained single-file web app so you can host it live for free and share the URL with Kementerian Belia dan Sukan (KBS).
-        </p>
-        <ol class="space-y-3 text-xs sm:text-sm">
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-royal-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
-            <div>
-              <strong class="text-navy-900">Create a GitHub Repository:</strong> Go to <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">github.com/new</span>, name it <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">sukanmy</span>, set to <strong>Public</strong>, and click Create.
-            </div>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-royal-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
-            <div>
-              <strong class="text-navy-900">Upload <code class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">index.html</code>:</strong> Click <em>"uploading an existing file"</em>, upload this exact <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">index.html</span> file, and commit changes.
-            </div>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="w-6 h-6 rounded-full bg-royal-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
-            <div>
-              <strong class="text-navy-900">Enable GitHub Pages:</strong> Open repository <strong>Settings &rarr; Pages</strong>, under <em>Branch</em> select <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">main</span> and <span class="font-mono bg-slate-100 px-1.5 py-0.5 rounded">/ (root)</span>, then click <strong>Save</strong>. Your live pitch link will be ready in ~30 seconds!
-            </div>
-          </li>
-        </ol>
-        <div class="pt-2 flex justify-end">
-          <button onclick="closeModal('github-modal')" class="px-5 py-2 rounded-xl bg-navy-900 text-white text-xs font-bold hover:bg-slate-800 transition">
-            Got It
-          </button>
-        </div>
+      <div id="day-modal-list" class="p-5 space-y-3 max-h-[65vh] overflow-y-auto">
+        <!-- Day event items injected here -->
       </div>
     </div>
   </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+<!-- ... existing code ... -->
+    const SPORT_THEMES = {
+      'Badminton': 'from-emerald-600 via-teal-700 to-navy-900',
+      'Futsal': 'from-red-600 via-jalurRed to-navy-900',
+      'Running': 'from-blue-700 via-royal-600 to-indigo-900',
+      'Cycling': 'from-amber-500 via-orange-600 to-navy-900',
+      'Football': 'from-green-700 via-emerald-800 to-navy-950',
+      'Pickleball': 'from-cyan-600 via-blue-700 to-navy-900',
+      'E-Sports': 'from-purple-700 via-indigo-800 to-navy-950',
+      'Hiking': 'from-teal-700 via-emerald-800 to-navy-950',
+      'Swimming': 'from-sky-600 via-blue-700 to-navy-900',
+      'Sepak Takraw': 'from-amber-500 via-red-600 to-navy-900'
+    };
 
-  <!-- ==================== APPLICATION JAVASCRIPT ==================== -->
-  <script>
-    // ---------------------------------------------------------
-    // 1. INITIAL SEED DATA (8 Realistic Malaysian Sports Events)
-    // ---------------------------------------------------------
-    const INITIAL_EVENTS = [
+    const SPORT_BADGE_COLORS = {
+      'Running': { dot: 'bg-blue-600', pill: 'bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100' },
+      'Badminton': { dot: 'bg-emerald-600', pill: 'bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100' },
+      'Futsal': { dot: 'bg-rose-600', pill: 'bg-rose-50 text-rose-800 border-rose-200 hover:bg-rose-100' },
+      'Cycling': { dot: 'bg-amber-500', pill: 'bg-amber-50 text-amber-800 border-amber-200 hover:bg-amber-100' },
+      'Football': { dot: 'bg-green-600', pill: 'bg-green-50 text-green-800 border-green-200 hover:bg-green-100' },
+      'Pickleball': { dot: 'bg-cyan-600', pill: 'bg-cyan-50 text-cyan-800 border-cyan-200 hover:bg-cyan-100' },
+      'E-Sports': { dot: 'bg-purple-600', pill: 'bg-purple-50 text-purple-800 border-purple-200 hover:bg-purple-100' },
+      'Hiking': { dot: 'bg-teal-600', pill: 'bg-teal-50 text-teal-800 border-teal-200 hover:bg-teal-100' },
+      'Swimming': { dot: 'bg-sky-600', pill: 'bg-sky-50 text-sky-800 border-sky-200 hover:bg-sky-100' },
+      'Sepak Takraw': { dot: 'bg-orange-600', pill: 'bg-orange-50 text-orange-800 border-orange-200 hover:bg-orange-100' }
+    };
+
+    const TODAY_ISO = '2026-11-18';
+
+    // Sample preview records across Nov & Dec 2026 shown before Supabase credentials are entered
+    const PREVIEW_EVENTS = [
       {
-        id: 'evt-my-001',
-        title: 'Hari Sukan Negara Putrajaya Fun Run & Carnival',
-        sport: 'Sukan Rakyat',
-        state: 'Putrajaya',
-        city: 'Presint 3, Putrajaya',
-        venue: 'Dataran Putrajaya, Persiaran Perdana, Presint 3, 62675 Putrajaya',
-        date: '2026-10-10',
-        time: '06:30',
-        type: 'KBS Official',
-        price: 0,
-        capacity: 5000,
-        registered: 3840,
-        organizer: 'Kementerian Belia dan Sukan (KBS)',
-        categories: ['5KM Family Fun Run', '10KM Open', 'Sukan Rakyat Traditional Games'],
-        description: 'Official national flagship celebration of Hari Sukan Negara featuring a 5KM/10KM community run, senamrobik perdana, tarik tali, and family fitness zones.'
-      },
-      {
-        id: 'evt-my-002',
-        title: 'KL Night Half Marathon 2026',
+        id: 'preview-1',
+        title: 'Kuala Lumpur Night City Run 10KM',
         sport: 'Running',
-        state: 'Kuala Lumpur',
-        city: 'Dataran Merdeka, KL',
-        venue: 'Dataran Merdeka, Jalan Raja, City Centre, 50050 Kuala Lumpur',
-        date: '2026-11-28',
-        time: '20:00',
-        type: 'Verified Organizer',
-        price: 85,
-        capacity: 3000,
-        registered: 2490,
-        organizer: 'ProRun Malaysia Events Sdn Bhd',
-        categories: ['21KM Half Marathon', '10KM Speed Run', '5KM City Night Glow'],
-        description: 'Experience Kuala Lumpur iconic skyline illuminated at night. Route passes KLCC, Saloma Link, and Sultan Abdul Samad Building. Includes Dry-Fit jersey & finisher medal.'
+        state: 'WP Kuala Lumpur',
+        venue: 'Dataran Merdeka, Jalan Raja, WP Kuala Lumpur',
+        event_date: '2026-11-18',
+        event_time: '20:00',
+        fee: 35,
+        max_participants: 800,
+        organizer_name: 'KL Pace Makers',
+        organizer_type: 'Official Organizer',
+        description: 'Mid-week illuminated city loop around Merdeka Square with electronic timing.'
       },
       {
-        id: 'evt-my-003',
-        title: 'Selangor Youth Badminton Open Championship',
+        id: 'preview-2',
+        title: 'Serdang Wednesday Evening Badminton Social',
         sport: 'Badminton',
         state: 'Selangor',
-        city: 'Shah Alam',
-        venue: 'Setia City Convention Centre Arena, Seksyen U13, 40170 Shah Alam, Selangor',
-        date: '2026-12-05',
-        time: '08:30',
-        type: 'Verified Organizer',
-        price: 45,
-        capacity: 512,
-        registered: 418,
-        organizer: 'Selangor Shuttle Academy',
-        categories: ['Men Singles U-21', 'Women Singles U-21', 'Mixed Doubles Open'],
-        description: 'Sanctioned state-level badminton tournament scouting emerging Selangor talent. BWF-standard courts, certified umpires, and RM 15,000 total cash prize pool.'
+        venue: 'UPM Sports Complex Hall B, Serdang, Selangor',
+        event_date: '2026-11-18',
+        event_time: '18:30',
+        fee: 15,
+        max_participants: 32,
+        organizer_name: 'Serdang Smashers Club',
+        organizer_type: 'Community',
+        description: 'Friendly doubles rotation session using Yonex AS-30 shuttlecocks.'
       },
       {
-        id: 'evt-my-004',
-        title: 'Johor Rakan Muda Futsal League',
-        sport: 'Futsal/Football',
+        id: 'preview-3',
+        title: 'Johor Bahru Inter-District Futsal Cup',
+        sport: 'Futsal',
         state: 'Johor',
-        city: 'Iskandar Puteri',
-        venue: 'Educity Sports Complex Indoor Arena, 79250 Iskandar Puteri, Johor',
-        date: '2026-12-12',
-        time: '09:00',
-        type: 'KBS Official',
-        price: 20,
-        capacity: 640,
-        registered: 520,
-        organizer: 'Jabatan Belia dan Sukan Negeri Johor',
-        categories: ['Men Youth (16-25)', 'Women Open', 'Corporate / Club Team'],
-        description: 'Grassroots 5-a-side futsal showdown under the Rakan Muda Gaya Hidup Aktif initiative. Team registration fee covers full match officiating and hydration.'
+        venue: 'SportPrima Futsal Arena, Pandan, Johor Bahru, Johor',
+        event_date: '2026-11-20',
+        event_time: '20:30',
+        fee: 120,
+        max_participants: 24,
+        organizer_name: 'Persatuan Futsal Johor',
+        organizer_type: 'Official Organizer',
+        description: 'Friday night knockout futsal tournament for youth and open men teams.'
       },
       {
-        id: 'evt-my-005',
-        title: 'Penang Coastal Bridge & Heritage Cycling Ride',
+        id: 'preview-4',
+        title: 'Putrajaya Lakefront Morning Criterium Ride',
         sport: 'Cycling',
-        state: 'Pulau Pinang',
-        city: 'George Town',
-        venue: 'Esplanade Padang Kota Lama, Jalan Tun Syed Sheh Barakbah, 10200 George Town, Pulau Pinang',
-        date: '2026-12-20',
-        time: '06:15',
-        type: 'Verified Organizer',
-        price: 95,
-        capacity: 1500,
-        registered: 1190,
-        organizer: 'Penang Peloton Club',
-        categories: ['88KM Century Coastal Loop', '42KM Heritage Ride'],
-        description: 'Scenic coastal fellowship ride spanning Penang Island coastal highway and heritage George Town zones with full PDRM traffic marshals and water stations.'
+        state: 'WP Putrajaya',
+        venue: 'Anjung Floria, Presint 4, WP Putrajaya',
+        event_date: '2026-11-21',
+        event_time: '07:00',
+        fee: 50,
+        max_participants: 350,
+        organizer_name: 'Putrajaya Cycling Federation',
+        organizer_type: 'Official Organizer',
+        description: '45KM closed-road endurance ride around Putrajaya bridges.'
       },
       {
-        id: 'evt-my-006',
-        title: 'Sabah Kundasang Highland Trail Run',
+        id: 'preview-5',
+        title: 'Bukit Broga Sunrise Community Hike',
+        sport: 'Hiking',
+        state: 'Negeri Sembilan',
+        venue: 'Bukit Broga Trailhead, Semenyih / Lenggeng Border',
+        event_date: '2026-11-21',
+        event_time: '05:45',
+        fee: 0,
+        max_participants: 60,
+        organizer_name: 'Rakan Muda Trail Selangor',
+        organizer_type: 'Community',
+        description: 'Guided beginner-friendly sunrise hike with summit stretching session.'
+      },
+      {
+        id: 'preview-6',
+        title: 'Penang Bridge Charity Fun Run 2026',
         sport: 'Running',
-        state: 'Sabah',
-        city: 'Kundasang, Ranau',
-        venue: 'Kundasang War Memorial Park Trailhead, 89308 Kundasang, Sabah',
-        date: '2027-01-16',
-        time: '06:00',
-        type: 'Verified Organizer',
-        price: 110,
-        capacity: 800,
-        registered: 645,
-        organizer: 'Borneo Ridge Trail Runners',
-        categories: ['30KM Kinabalu Foothills', '15KM Pine Trail'],
-        description: 'High-altitude cool-weather trail challenge at the foothills of Mount Kinabalu featuring panoramic ridge views, vegetable farm trails, and local Sabahan hospitality.'
+        state: 'Pulau Pinang',
+        venue: 'Queensbay Mall Outdoor Carpark, Bayan Lepas, Pulau Pinang',
+        event_date: '2026-11-22',
+        event_time: '06:30',
+        fee: 45,
+        max_participants: 1500,
+        organizer_name: 'Penang Athletics Association',
+        organizer_type: 'Official Organizer',
+        description: 'Coastal 12KM charity run supporting grassroots youth athletics in Penang.'
       },
       {
-        id: 'evt-my-007',
-        title: 'Kuching Social Pickleball Open Ladder',
+        id: 'preview-7',
+        title: 'Cyberjaya Campus Mobile Legends E-Sports Open',
+        sport: 'E-Sports',
+        state: 'Selangor',
+        venue: 'Multimedia University Grand Hall, Cyberjaya, Selangor',
+        event_date: '2026-11-16',
+        event_time: '14:00',
+        fee: 0,
+        max_participants: 128,
+        organizer_name: 'MY E-Sports Youth Hub',
+        organizer_type: 'Community',
+        description: '5v5 collegiate and community MLBB showdown with RM 3,000 prize pool.'
+      },
+      {
+        id: 'preview-8',
+        title: 'Melaka Heritage Sunday Football Friendly League',
+        sport: 'Football',
+        state: 'Melaka',
+        venue: 'Stadium Hang Tuah, Bandaraya Melaka, Melaka',
+        event_date: '2026-11-08',
+        event_time: '16:30',
+        fee: 0,
+        max_participants: 44,
+        organizer_name: 'Melaka Grassroots FA',
+        organizer_type: 'Official Organizer',
+        description: '11-a-side community development showcase match.'
+      },
+      {
+        id: 'preview-9',
+        title: 'Kota Kinabalu Likas Bay Open Water Swim',
+        sport: 'Swimming',
+        state: 'Sabah',
+        venue: 'Tanjung Lipat Beachfront, Likas Bay, Kota Kinabalu, Sabah',
+        event_date: '2026-11-28',
+        event_time: '07:00',
+        fee: 65,
+        max_participants: 220,
+        organizer_name: 'Sabah Aquatics Club',
+        organizer_type: 'Official Organizer',
+        description: '1.5KM and 3KM safety-buoyed coastal swim with lifeguard escort.'
+      },
+      {
+        id: 'preview-10',
+        title: 'Terengganu Pantai Batu Buruk Sepak Takraw Regu',
+        sport: 'Sepak Takraw',
+        state: 'Terengganu',
+        venue: 'Gelanggang Terbuka Batu Buruk, Kuala Terengganu, Terengganu',
+        event_date: '2026-11-29',
+        event_time: '09:00',
+        fee: 30,
+        max_participants: 48,
+        organizer_name: 'Persatuan Sepak Takraw Terengganu',
+        organizer_type: 'Official Organizer',
+        description: 'Traditional 3-player regu tournament by the East Coast beachfront.'
+      },
+      {
+        id: 'preview-11',
+        title: 'Hari Sukan Negara Putrajaya 10KM & Carnival',
+        sport: 'Running',
+        state: 'WP Putrajaya',
+        venue: 'Dataran Putrajaya, Presint 3, WP Putrajaya',
+        event_date: '2026-12-12',
+        event_time: '06:30',
+        fee: 0,
+        max_participants: 2000,
+        organizer_name: 'KBS National Secretariat',
+        organizer_type: 'Official Organizer',
+        description: 'Flagship national fitness run and community sports carnival at Putrajaya.'
+      },
+      {
+        id: 'preview-12',
+        title: 'Selangor Open Badminton Championship',
+        sport: 'Badminton',
+        state: 'Selangor',
+        venue: 'Setia City Convention Centre Arena, Shah Alam, Selangor',
+        event_date: '2026-12-19',
+        event_time: '08:30',
+        fee: 45,
+        max_participants: 256,
+        organizer_name: 'Selangor Shuttle Club',
+        organizer_type: 'Official Organizer',
+        description: 'State-wide open singles & doubles badminton tournament.'
+      },
+      {
+        id: 'preview-13',
+        title: 'Kuching Community Pickleball Social Ladder',
         sport: 'Pickleball',
         state: 'Sarawak',
-        city: 'Kuching',
-        venue: 'Sarawak Pickleball Hub, Jalan Song, 93350 Kuching, Sarawak',
-        date: '2026-11-22',
-        time: '16:00',
-        type: 'Community',
-        price: 15,
-        capacity: 120,
-        registered: 96,
-        organizer: 'Kuching Dinkers Community',
-        categories: ['Beginner / Social Mix', 'Intermediate Doubles (DUPR 3.0+)'],
-        description: 'Friendly weekend community pickleball ladder open to players of all levels in Kuching. Court fees and tournament balls included in entry pass.'
-      },
-      {
-        id: 'evt-my-008',
-        title: 'Bukit Jalil National E-Sports Challenge',
-        sport: 'E-Sports',
-        state: 'Kuala Lumpur',
-        city: 'Bukit Jalil',
-        venue: 'Axiata Arena Bukit Jalil, 57000 Kuala Lumpur',
-        date: '2026-12-19',
-        time: '10:00',
-        type: 'KBS Official',
-        price: 0,
-        capacity: 2000,
-        registered: 1710,
-        organizer: 'KBS & Esports Integrated (ESI)',
-        categories: ['Mobile Legends: Bang Bang', 'EA Sports FC 26', 'TEKKEN 8'],
-        description: 'National youth e-sports championship supporting Malaysia National Esports Development Blueprint. Free spectator & competitor registration via SukanMY.'
+        venue: 'Sarawak Pickleball Hub, Jalan Song, Kuching, Sarawak',
+        event_date: '2026-12-26',
+        event_time: '17:00',
+        fee: 15,
+        max_participants: 64,
+        organizer_name: 'Kuching Dinkers',
+        organizer_type: 'Community',
+        description: 'Weekend social ladder open to beginner and intermediate players.'
       }
     ];
 
-    const SPORT_CATEGORIES = [
-      'All',
-      'Running',
-      'Badminton',
-      'Futsal/Football',
-      'Cycling',
-      'E-Sports',
-      'Pickleball',
-      'Sukan Rakyat'
-    ];
-
-    const SPORT_THEMES = {
-      'Running': { gradient: 'from-blue-700 via-royal-600 to-indigo-900', icon: 'footprints' },
-      'Badminton': { gradient: 'from-emerald-600 via-teal-700 to-navy-900', icon: 'trophy' },
-      'Futsal/Football': { gradient: 'from-red-600 via-jalurRed to-navy-900', icon: 'flame' },
-      'Cycling': { gradient: 'from-amber-500 via-orange-600 to-navy-900', icon: 'bike' },
-      'E-Sports': { gradient: 'from-purple-700 via-indigo-800 to-navy-950', icon: 'gamepad-2' },
-      'Pickleball': { gradient: 'from-cyan-600 via-blue-700 to-navy-900', icon: 'disc' },
-      'Sukan Rakyat': { gradient: 'from-amber-500 via-red-600 to-navy-900', icon: 'flag' }
-    };
-
-    // ---------------------------------------------------------
-    // 2. APPLICATION STATE & LOCALSTORAGE PERSISTENCE
-    // ---------------------------------------------------------
-    const STORAGE_KEYS = {
-      USER: 'sukanmy_current_user_v1',
-      EVENTS: 'sukanmy_events_v1',
-      TICKETS: 'sukanmy_tickets_v1',
-      BASE_USERS: 'sukanmy_base_users_v1'
-    };
-
-    let state = {
+    let appState = {
       currentUser: null,
+      userProfile: null,
       events: [],
-      tickets: [],
+      registrations: [],
       selectedSport: 'All',
       activeTab: 'discover',
-      baseUsersCount: 14820
+      discoverDisplayMode: 'cards',
+      calendarViewMode: 'month',
+      calendarCursorDate: TODAY_ISO,
+      activeRosterEventId: null
     };
+// ... existing code ...
+      supabaseClient = null;
+      isSupabaseLive = false;
+      pill.className = 'inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-[11px] font-bold transition bg-amber-500/15 border-amber-400/40 text-amber-300 hover:bg-amber-500/25';
+      dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+      text.textContent = 'Demo Mode';
 
-    function loadState() {
-      try {
-        const savedUser = localStorage.getItem(STORAGE_KEYS.USER);
-        const savedEvents = localStorage.getItem(STORAGE_KEYS.EVENTS);
-        const savedTickets = localStorage.getItem(STORAGE_KEYS.TICKETS);
-        const savedBaseUsers = localStorage.getItem(STORAGE_KEYS.BASE_USERS);
-
-        state.currentUser = savedUser ? JSON.parse(savedUser) : null;
-        state.events = savedEvents ? JSON.parse(savedEvents) : [...INITIAL_EVENTS];
-        state.tickets = savedTickets ? JSON.parse(savedTickets) : [];
-        state.baseUsersCount = savedBaseUsers ? parseInt(savedBaseUsers, 10) : 14820;
-
-        if (!savedEvents) {
-          localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(state.events));
-        }
-      } catch (err) {
-        console.error('Error loading local state:', err);
-        state.events = [...INITIAL_EVENTS];
+      if (heroBadge) {
+        heroBadge.className = 'text-[11px] font-bold px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300';
+        heroBadge.textContent = 'Demo Mode';
       }
+      return false;
     }
-
-    function saveState() {
-      try {
-        if (state.currentUser) {
-          localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(state.currentUser));
-        } else {
-          localStorage.removeItem(STORAGE_KEYS.USER);
-        }
-        localStorage.setItem(STORAGE_KEYS.EVENTS, JSON.stringify(state.events));
-        localStorage.setItem(STORAGE_KEYS.TICKETS, JSON.stringify(state.tickets));
-        localStorage.setItem(STORAGE_KEYS.BASE_USERS, String(state.baseUsersCount));
-      } catch (err) {
-        console.error('Error saving state:', err);
-      }
-    }
-
+// ... existing code ...
     // ---------------------------------------------------------
-    // 3. AUTHENTICATION & 1-CLICK DEMO PROFILES
-    // ---------------------------------------------------------
-    function openAuthModal(mode = 'register') {
-      switchAuthMode(mode);
-      document.getElementById('auth-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.add('hidden');
-    }
-
-    function switchAuthMode(mode) {
-      const regBtn = document.getElementById('tab-btn-register');
-      const logBtn = document.getElementById('tab-btn-login');
-      const nameGroup = document.getElementById('auth-name-group');
-      const extrasGroup = document.getElementById('auth-register-extras');
-      const submitBtn = document.getElementById('auth-submit-btn');
-      const nameInput = document.getElementById('auth-name');
-
-      if (mode === 'register') {
-        regBtn.className = 'py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-royal-600 text-royal-600 bg-white';
-        logBtn.className = 'py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500 hover:text-navy-900';
-        nameGroup.classList.remove('hidden');
-        extrasGroup.classList.remove('hidden');
-        nameInput.required = true;
-        submitBtn.textContent = 'Create SukanMY Account';
-        submitBtn.dataset.mode = 'register';
-      } else {
-        logBtn.className = 'py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-royal-600 text-royal-600 bg-white';
-        regBtn.className = 'py-3 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500 hover:text-navy-900';
-        nameGroup.classList.add('hidden');
-        extrasGroup.classList.add('hidden');
-        nameInput.required = false;
-        submitBtn.textContent = 'Sign In to SukanMY';
-        submitBtn.dataset.mode = 'login';
-      }
-    }
-
-    function handleAuthSubmit(e) {
-      e.preventDefault();
-      const mode = document.getElementById('auth-submit-btn').dataset.mode || 'register';
-      const email = document.getElementById('auth-email').value.trim();
-      const nameInput = document.getElementById('auth-name').value.trim();
-      const userState = document.getElementById('auth-state').value;
-      const role = document.getElementById('auth-role').value;
-
-      const derivedName = nameInput || email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-
-      state.currentUser = {
-        id: 'usr-' + Date.now(),
-        name: derivedName,
-        email: email,
-        state: userState,
-        role: role
-      };
-
-      if (mode === 'register') {
-        state.baseUsersCount += 1;
-      }
-
-      saveState();
-      closeModal('auth-modal');
-      updateUIForAuth();
-      showToast(`Selamat datang, ${state.currentUser.name}! Full access unlocked.`, 'success');
-    }
-
-    function quickDemoLogin(profileType) {
-      const profiles = {
-        enthusiast: {
-          id: 'demo-enthusiast',
-          name: 'Aiman Hakim',
-          email: 'aiman.hakim@sukanmy.my',
-          state: 'Selangor',
-          role: 'enthusiast'
-        },
-        organizer: {
-          id: 'demo-organizer',
-          name: 'ProRun Malaysia Events',
-          email: 'events@prorun.com.my',
-          state: 'Kuala Lumpur',
-          role: 'organizer'
-        },
-        kbs: {
-          id: 'demo-kbs',
-          name: 'Puan Farhana (KBS Officer)',
-          email: 'farhana.policy@kbs.gov.my',
-          state: 'Putrajaya',
-          role: 'kbs'
-        }
-      };
-
-      state.currentUser = profiles[profileType];
-      saveState();
-      closeModal('auth-modal');
-      updateUIForAuth();
-
-      if (profileType === 'kbs') {
-        switchTab('analytics');
-        showToast('Signed in as KBS Policy Officer — Viewing National Telemetry.', 'info');
-      } else if (profileType === 'organizer') {
-        showToast('Signed in as Verified Organizer — Phase 2 Ticketing Enabled.', 'success');
-      } else {
-        showToast('Signed in as Sports Enthusiast (Aiman Hakim) — Venues & Tickets Unlocked!', 'success');
-      }
-    }
-
-    function logoutUser() {
-      state.currentUser = null;
-      saveState();
-      updateUIForAuth();
-      showToast('Signed out. Guest preview mode active.', 'info');
-    }
-
-    function updateUIForAuth() {
-      const headerAuthArea = document.getElementById('header-auth-area');
-      const guestGateBanner = document.getElementById('guest-gate-banner');
-      const demoQuickBar = document.getElementById('demo-quick-bar');
-      const postGatekeeper = document.getElementById('post-gatekeeper');
-      const postFormContainer = document.getElementById('post-form-container');
-      const ticketsGatekeeper = document.getElementById('tickets-gatekeeper');
-      const ticketsContent = document.getElementById('tickets-content');
-
-      if (state.currentUser) {
-        const roleLabels = {
-          enthusiast: { text: 'Enthusiast', badge: 'bg-blue-500/20 text-blue-200 border-blue-400/30' },
-          organizer: { text: 'Verified Organizer', badge: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/30' },
-          kbs: { text: 'KBS Officer', badge: 'bg-amber-500/20 text-amber-200 border-amber-400/30' }
-        };
-        const rInfo = roleLabels[state.currentUser.role] || roleLabels.enthusiast;
-
-        headerAuthArea.innerHTML = `
-          <div class="flex items-center gap-2.5">
-            <div class="hidden sm:flex flex-col items-end">
-              <span class="text-xs font-bold text-white leading-tight">${escapeHtml(state.currentUser.name)}</span>
-              <span class="text-[10px] px-1.5 py-0.2 rounded border ${rInfo.badge} font-semibold mt-0.5">${rInfo.text} • ${escapeHtml(state.currentUser.state)}</span>
-            </div>
-            <div class="w-8 h-8 rounded-full bg-royal-600 border border-blue-400 flex items-center justify-center text-xs font-extrabold text-white">
-              ${escapeHtml(state.currentUser.name.charAt(0).toUpperCase())}
-            </div>
-            <button onclick="logoutUser()" title="Sign Out" class="p-2 rounded-xl bg-slate-800 hover:bg-jalurRed/80 text-slate-300 hover:text-white transition">
-              <i data-lucide="log-out" class="w-4 h-4"></i>
-            </button>
-          </div>
-        `;
-
-        if (guestGateBanner) guestGateBanner.classList.add('hidden');
-        if (demoQuickBar) demoQuickBar.classList.add('hidden');
-        if (postGatekeeper) postGatekeeper.classList.add('hidden');
-        if (postFormContainer) postFormContainer.classList.remove('hidden');
-        if (ticketsGatekeeper) ticketsGatekeeper.classList.add('hidden');
-        if (ticketsContent) ticketsContent.classList.remove('hidden');
-
-        // Pre-select organizer mode if user role is organizer
-        if (state.currentUser.role === 'organizer') {
-          const orgRadio = document.querySelector('input[name="listingMode"][value="Verified Organizer"]');
-          if (orgRadio) orgRadio.checked = true;
-        }
-      } else {
-        headerAuthArea.innerHTML = `
-          <button onclick="openAuthModal('login')" class="px-3 py-2 rounded-xl text-xs font-semibold text-slate-200 hover:text-white hover:bg-slate-800 transition">
-            Sign In
-          </button>
-          <button onclick="openAuthModal('register')" class="px-3.5 py-2 rounded-xl bg-jalurGold hover:bg-amber-400 text-navy-950 text-xs font-extrabold transition shadow">
-            Register
-          </button>
-        `;
-
-        if (guestGateBanner) guestGateBanner.classList.remove('hidden');
-        if (demoQuickBar) demoQuickBar.classList.remove('hidden');
-        if (postGatekeeper) postGatekeeper.classList.remove('hidden');
-        if (postFormContainer) postFormContainer.classList.add('hidden');
-        if (ticketsGatekeeper) ticketsGatekeeper.classList.remove('hidden');
-        if (ticketsContent) ticketsContent.classList.add('hidden');
-      }
-
-      updateTicketBadges();
-      renderEvents();
-      renderTickets();
-      renderAnalytics();
-      lucide.createIcons();
-    }
-
-    // ---------------------------------------------------------
-    // 4. TAB NAVIGATION
+    // 5. NAVIGATION TABS & CALENDAR VIEW SWITCHING
     // ---------------------------------------------------------
     function switchTab(tabName) {
-      state.activeTab = tabName;
-      const tabs = ['discover', 'post', 'tickets', 'analytics'];
+      appState.activeTab = tabName;
+      const navKeys = ['discover', 'calendar', 'analytics', 'tickets'];
 
-      tabs.forEach(t => {
-        const section = document.getElementById(`tab-${t}`);
+      navKeys.forEach(t => {
         const deskBtn = document.getElementById(`nav-${t}`);
         const mobBtn = document.getElementById(`m-nav-${t}`);
+        const isActive = t === tabName;
 
-        if (t === tabName) {
-          section.classList.remove('hidden');
-          if (deskBtn) deskBtn.className = 'nav-btn px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 bg-royal-600 text-white shadow-sm';
-          if (mobBtn) mobBtn.className = 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold bg-royal-600 text-white relative';
-        } else {
-          section.classList.add('hidden');
-          if (deskBtn) deskBtn.className = 'nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-2';
-          if (mobBtn) mobBtn.className = 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[11px] font-semibold text-slate-400 relative';
+        if (deskBtn) {
+          deskBtn.className = isActive
+            ? 'nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-sm'
+            : 'nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-1.5';
+        }
+        if (mobBtn) {
+          mobBtn.className = isActive
+            ? 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold bg-royal-600 text-white relative'
+            : 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 relative';
         }
       });
 
+      const discoverSection = document.getElementById('tab-discover');
+      const analyticsSection = document.getElementById('tab-analytics');
+      const ticketsSection = document.getElementById('tab-tickets');
       const hero = document.getElementById('hero-banner');
-      if (hero) {
-        if (tabName === 'discover') hero.classList.remove('hidden');
-        else hero.classList.add('hidden');
-      }
 
-      if (tabName === 'analytics') renderAnalytics();
-      if (tabName === 'tickets') renderTickets();
+      discoverSection.classList.add('hidden');
+      analyticsSection.classList.add('hidden');
+      ticketsSection.classList.add('hidden');
+
+      if (tabName === 'discover' || tabName === 'calendar') {
+        discoverSection.classList.remove('hidden');
+        if (hero) hero.classList.remove('hidden');
+        setDiscoverDisplayMode(tabName === 'calendar' ? 'calendar' : 'cards', false);
+      } else if (tabName === 'analytics') {
+        analyticsSection.classList.remove('hidden');
+        if (hero) hero.classList.add('hidden');
+        renderAnalytics();
+      } else if (tabName === 'tickets') {
+        ticketsSection.classList.remove('hidden');
+        if (hero) hero.classList.add('hidden');
+        renderTicketsAndHosted();
+      }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
       lucide.createIcons();
     }
 
+    function setDiscoverDisplayMode(mode, syncNav = true) {
+      appState.discoverDisplayMode = mode;
+      const cardsGrid = document.getElementById('events-grid');
+      const calendarWorkspace = document.getElementById('calendar-workspace');
+      const btnCards = document.getElementById('btn-view-cards');
+      const btnCal = document.getElementById('btn-view-calendar');
+
+      if (mode === 'calendar') {
+        cardsGrid.classList.add('hidden');
+        calendarWorkspace.classList.remove('hidden');
+        btnCal.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-navy-900 shadow-xs';
+        btnCards.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-navy-900';
+        renderCalendar();
+      } else {
+        calendarWorkspace.classList.add('hidden');
+        cardsGrid.classList.remove('hidden');
+        btnCards.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-white text-navy-900 shadow-xs';
+        btnCal.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-600 hover:text-navy-900';
+      }
+
+      if (syncNav && (appState.activeTab === 'discover' || appState.activeTab === 'calendar')) {
+        const targetNav = mode === 'calendar' ? 'calendar' : 'discover';
+        appState.activeTab = targetNav;
+        ['discover', 'calendar'].forEach(t => {
+          const deskBtn = document.getElementById(`nav-${t}`);
+          const mobBtn = document.getElementById(`m-nav-${t}`);
+          const active = t === targetNav;
+          if (deskBtn) {
+            deskBtn.className = active
+              ? 'nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-sm'
+              : 'nav-btn px-3.5 py-2 rounded-lg text-xs lg:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800/70 transition flex items-center gap-1.5';
+          }
+          if (mobBtn) {
+            mobBtn.className = active
+              ? 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold bg-royal-600 text-white relative'
+              : 'm-nav-btn flex flex-col items-center justify-center py-1.5 rounded-lg text-[10px] font-semibold text-slate-400 relative';
+          }
+        });
+      }
+
+      lucide.createIcons();
+    }
+// ... existing code ...
+    function getFilteredEvents() {
+      const searchVal = (document.getElementById('filter-search')?.value || '').toLowerCase().trim();
+      const stateVal = document.getElementById('filter-state')?.value || 'All';
+      const typeVal = document.getElementById('filter-type')?.value || 'All';
+      const sportVal = appState.selectedSport;
+
+      return appState.events.filter(ev => {
+        const matchesState = stateVal === 'All' || ev.state === stateVal;
+        const matchesType = typeVal === 'All' || ev.organizer_type === typeVal;
+        const matchesSport = sportVal === 'All' || ev.sport === sportVal;
+        const matchesSearch =
+          !searchVal ||
+          (ev.title || '').toLowerCase().includes(searchVal) ||
+          (ev.state || '').toLowerCase().includes(searchVal) ||
+          (ev.sport || '').toLowerCase().includes(searchVal) ||
+          (ev.venue || '').toLowerCase().includes(searchVal);
+
+        return matchesState && matchesType && matchesSport && matchesSearch;
+      });
+    }
+
+    function renderEvents() {
+      const filtered = getFilteredEvents();
+
+      document.getElementById('events-showing-count').textContent = filtered.length;
+      const grid = document.getElementById('events-grid');
+
+      // Keep Calendar synchronized with active filters
+      renderCalendar(filtered);
+
+      if (filtered.length === 0) {
+// ... existing code ...
+      lucide.createIcons();
+    }
+
     // ---------------------------------------------------------
-    // 5. DISCOVER EVENTS FEED & FILTERING
+    // 6B. INTERACTIVE EVENT CALENDAR (MONTH & WEEK VIEWS)
     // ---------------------------------------------------------
-    function renderSportPills() {
-      const container = document.getElementById('sport-pills-container');
-      container.innerHTML = SPORT_CATEGORIES.map(sport => {
-        const active = state.selectedSport === sport;
+    function parseIsoDate(isoStr) {
+      const [y, m, d] = (isoStr || TODAY_ISO).split('-').map(Number);
+      return new Date(y, (m || 1) - 1, d || 1);
+    }
+
+    function toIsoDate(dateObj) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const d = String(dateObj.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function setCalendarViewMode(viewMode) {
+      appState.calendarViewMode = viewMode;
+      const btnMonth = document.getElementById('cal-mode-month');
+      const btnWeek = document.getElementById('cal-mode-week');
+      const monthBox = document.getElementById('calendar-month-container');
+      const weekBox = document.getElementById('calendar-week-container');
+
+      if (viewMode === 'week') {
+        btnWeek.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-xs';
+        btnMonth.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-white';
+        monthBox.classList.add('hidden');
+        weekBox.classList.remove('hidden');
+      } else {
+        btnMonth.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 bg-royal-600 text-white shadow-xs';
+        btnWeek.className = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 text-slate-300 hover:text-white';
+        weekBox.classList.add('hidden');
+        monthBox.classList.remove('hidden');
+      }
+
+      renderCalendar();
+      lucide.createIcons();
+    }
+
+    function navigateCalendar(delta) {
+      const current = parseIsoDate(appState.calendarCursorDate);
+      if (appState.calendarViewMode === 'week') {
+        current.setDate(current.getDate() + delta * 7);
+      } else {
+        current.setDate(1);
+        current.setMonth(current.getMonth() + delta);
+      }
+      appState.calendarCursorDate = toIsoDate(current);
+      renderCalendar();
+      lucide.createIcons();
+    }
+
+    function goToCalendarToday() {
+      appState.calendarCursorDate = TODAY_ISO;
+      renderCalendar();
+      lucide.createIcons();
+    }
+
+    function renderCalendarLegend() {
+      const legendEl = document.getElementById('calendar-sport-legend');
+      if (!legendEl) return;
+
+      const legendSports = SPORT_CATEGORIES.filter(s => s !== 'All');
+      legendEl.innerHTML = legendSports.map(sport => {
+        const badge = SPORT_BADGE_COLORS[sport] || { dot: 'bg-blue-600' };
         return `
-          <button
-            onclick="selectSportFilter('${sport}')"
-            class="px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition ${
-              active
-                ? 'bg-navy-900 text-white shadow-sm'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-            }"
-          >
-            ${sport}
+          <button type="button" onclick="selectSportFilter('${sport}')" class="inline-flex items-center gap-1.5 text-slate-600 hover:text-navy-900 font-semibold transition">
+            <span class="w-2.5 h-2.5 rounded-full ${badge.dot}"></span>
+            <span>${sport}</span>
           </button>
         `;
       }).join('');
     }
 
-    function selectSportFilter(sport) {
-      state.selectedSport = sport;
-      renderSportPills();
-      renderEvents();
-    }
+    function renderCalendar(preFilteredEvents = null) {
+      const events = preFilteredEvents || getFilteredEvents();
+      renderCalendarLegend();
 
-    function resetFilters() {
-      document.getElementById('filter-search').value = '';
-      document.getElementById('filter-state').value = 'All';
-      document.getElementById('filter-type').value = 'All';
-      state.selectedSport = 'All';
-      renderSportPills();
-      renderEvents();
-    }
+      // Group filtered events by ISO date and sort by time
+      const eventsByDate = {};
+      events.forEach(ev => {
+        if (!ev.event_date) return;
+        if (!eventsByDate[ev.event_date]) eventsByDate[ev.event_date] = [];
+        eventsByDate[ev.event_date].push(ev);
+      });
+      Object.keys(eventsByDate).forEach(dateKey => {
+        eventsByDate[dateKey].sort((a, b) => (a.event_time || '').localeCompare(b.event_time || ''));
+      });
 
-    function formatMalaysianDate(dateStr) {
-      try {
-        const d = new Date(dateStr + 'T00:00:00');
-        return d.toLocaleDateString('en-MY', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-      } catch {
-        return dateStr;
+      const cursor = parseIsoDate(appState.calendarCursorDate);
+      const periodLabel = document.getElementById('calendar-period-label');
+      const periodSub = document.getElementById('calendar-period-sub');
+
+      if (appState.calendarViewMode === 'month') {
+        const year = cursor.getFullYear();
+        const month = cursor.getMonth();
+        periodLabel.textContent = cursor.toLocaleDateString('en-MY', { month: 'long', year: 'numeric' });
+
+        // Count events in visible month
+        const monthPrefix = `${year}-${String(month + 1).padStart(2, '0')}`;
+        const monthCount = events.filter(e => (e.event_date || '').startsWith(monthPrefix)).length;
+        periodSub.textContent = `${monthCount} matching sports event(s) scheduled in ${periodLabel.textContent}`;
+
+        // Monday-start grid calculation
+        const firstDayOfMonth = new Date(year, month, 1);
+        const startOffset = (firstDayOfMonth.getDay() + 6) % 7; // 0 = Mon ... 6 = Sun
+        const gridStart = new Date(year, month, 1 - startOffset);
+
+        const cellsHtml = [];
+        for (let i = 0; i < 42; i++) {
+          const cellDate = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i);
+          const iso = toIsoDate(cellDate);
+          const isCurrentMonth = cellDate.getMonth() === month;
+          const isToday = iso === TODAY_ISO;
+          const dayEvents = eventsByDate[iso] || [];
+          const visibleEvents = dayEvents.slice(0, 3);
+          const overflowCount = dayEvents.length - visibleEvents.length;
+
+          const pillsHtml = visibleEvents.map(ev => {
+            const theme = SPORT_BADGE_COLORS[ev.sport] || { dot: 'bg-blue-600', pill: 'bg-blue-50 text-blue-800 border-blue-200 hover:bg-blue-100' };
+            const isOfficial = ev.organizer_type === 'Official Organizer';
+            return `
+              <button
+                type="button"
+                onclick="openBookingModal('${ev.id}')"
+                title="${escapeHtml(ev.event_time || '')} • ${escapeHtml(ev.title)} (${escapeHtml(ev.state)})"
+                class="w-full text-left px-2 py-1 rounded-lg border text-[11px] leading-tight transition flex items-center gap-1.5 ${theme.pill} ${isOfficial ? 'ring-1 ring-amber-400/80' : ''}"
+              >
+                <span class="w-1.5 h-1.5 rounded-full ${theme.dot} shrink-0"></span>
+                <span class="font-bold shrink-0">${escapeHtml(ev.event_time || '')}</span>
+                <span class="truncate font-semibold">${escapeHtml(ev.title)}</span>
+              </button>
+            `;
+          }).join('');
+
+          const moreBtnHtml = overflowCount > 0
+            ? `<button type="button" onclick="openDayEventsModal('${iso}')" class="w-full text-left px-2 py-1 rounded-md bg-navy-900 hover:bg-slate-800 text-jalurGold text-[10px] font-extrabold transition">
+                +${overflowCount} more event${overflowCount > 1 ? 's' : ''}
+              </button>`
+            : '';
+
+          cellsHtml.push(`
+            <div class="min-h-[126px] p-2 flex flex-col justify-between transition ${
+              isCurrentMonth ? 'bg-white' : 'bg-slate-100/75 text-slate-400'
+            } ${isToday ? 'ring-2 ring-inset ring-royal-600 bg-blue-50/30' : ''}">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-extrabold ${
+                    isToday
+                      ? 'bg-royal-600 text-white shadow-xs'
+                      : isCurrentMonth
+                      ? 'text-navy-900'
+                      : 'text-slate-400'
+                  }">
+                    ${cellDate.getDate()}
+                  </span>
+                  ${
+                    isToday
+                      ? '<span class="text-[9px] font-extrabold uppercase tracking-wider px-1.5 py-0.5 rounded bg-royal-600/10 text-royal-700">Today</span>'
+                      : dayEvents.length > 0
+                      ? `<span class="text-[10px] font-bold text-slate-400">${dayEvents.length}</span>`
+                      : ''
+                  }
+                </div>
+                <div class="space-y-1">
+                  ${pillsHtml}
+                  ${moreBtnHtml}
+                </div>
+              </div>
+            </div>
+          `);
+        }
+
+        document.getElementById('calendar-month-grid').innerHTML = cellsHtml.join('');
+      } else {
+        // WEEK VIEW (Mon - Sun containing cursor date)
+        const dayOffset = (cursor.getDay() + 6) % 7;
+        const weekStart = new Date(cursor.getFullYear(), cursor.getMonth(), cursor.getDate() - dayOffset);
+        const weekEnd = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + 6);
+
+        const startText = weekStart.toLocaleDateString('en-MY', { month: 'short', day: 'numeric' });
+        const endText = weekEnd.toLocaleDateString('en-MY', { month: 'short', day: 'numeric', year: 'numeric' });
+        periodLabel.textContent = `${startText} – ${endText}`;
+
+        let weekTotal = 0;
+        const colsHtml = [];
+
+        for (let d = 0; d < 7; d++) {
+          const dayObj = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + d);
+          const iso = toIsoDate(dayObj);
+          const isToday = iso === TODAY_ISO;
+          const dayEvents = eventsByDate[iso] || [];
+          weekTotal += dayEvents.length;
+
+          const dayName = dayObj.toLocaleDateString('en-MY', { weekday: 'short' });
+          const dayNum = dayObj.toLocaleDateString('en-MY', { day: 'numeric', month: 'short' });
+
+          const cardsHtml = dayEvents.length === 0
+            ? `<div class="rounded-xl border border-dashed border-slate-200 p-4 text-center text-[11px] text-slate-400 my-auto">
+                No events scheduled
+              </div>`
+            : dayEvents.map(ev => {
+                const theme = SPORT_BADGE_COLORS[ev.sport] || { dot: 'bg-blue-600', pill: 'bg-blue-50 text-blue-800 border-blue-200' };
+                const isOfficial = ev.organizer_type === 'Official Organizer';
+                const feeNum = Number(ev.fee) || 0;
+                const regCount = appState.registrations.filter(r => r.event_id === ev.id).length;
+                const remaining = Math.max(0, (Number(ev.max_participants) || 100) - regCount);
+
+                return `
+                  <div class="bg-white rounded-xl border border-slate-200 p-3 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-2.5">
+                    <div class="space-y-1.5">
+                      <div class="flex items-center justify-between gap-1">
+                        <span class="text-[11px] font-extrabold text-royal-600 flex items-center gap-1">
+                          <i data-lucide="clock" class="w-3 h-3"></i>
+                          ${escapeHtml(ev.event_time || '07:30')}
+                        </span>
+                        <span class="px-1.5 py-0.5 rounded text-[10px] font-extrabold ${
+                          feeNum === 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-navy-900'
+                        }">
+                          ${feeNum === 0 ? 'Free' : `RM ${feeNum}`}
+                        </span>
+                      </div>
+
+                      <div class="flex flex-wrap items-center gap-1">
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-bold ${theme.pill}">
+                          <span class="w-1.5 h-1.5 rounded-full ${theme.dot}"></span>
+                          ${escapeHtml(ev.sport)}
+                        </span>
+                        ${
+                          isOfficial
+                            ? '<span class="px-1.5 py-0.5 rounded-md bg-jalurGold text-navy-950 text-[9px] font-extrabold uppercase">Official</span>'
+                            : '<span class="px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[9px] font-bold">Community</span>'
+                        }
+                      </div>
+
+                      <h4 class="font-display font-extrabold text-xs text-navy-900 leading-snug line-clamp-2">
+                        ${escapeHtml(ev.title)}
+                      </h4>
+
+                      <p class="text-[11px] text-slate-500 flex items-start gap-1 leading-tight">
+                        <i data-lucide="map-pin" class="w-3 h-3 text-jalurRed shrink-0 mt-0.5"></i>
+                        <span class="line-clamp-2">${escapeHtml(ev.venue)} (${escapeHtml(ev.state)})</span>
+                      </p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100 space-y-2">
+                      <div class="text-[10px] font-semibold text-slate-500 flex items-center justify-between">
+                        <span>Slots Left</span>
+                        <span class="font-bold text-navy-900">${remaining}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onclick="openBookingModal('${ev.id}')"
+                        class="w-full py-1.5 px-2.5 rounded-lg bg-royal-600 hover:bg-blue-700 text-white text-[11px] font-bold transition"
+                      >
+                        View / Register
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }).join('');
+
+          colsHtml.push(`
+            <div class="rounded-2xl border ${
+              isToday ? 'border-royal-600 bg-blue-50/40 ring-1 ring-royal-600/30' : 'border-slate-200 bg-slate-50/70'
+            } flex flex-col min-h-[260px] overflow-hidden">
+              <div class="px-3 py-2.5 border-b ${
+                isToday ? 'bg-royal-600 text-white border-royal-600' : 'bg-navy-900 text-white border-slate-800'
+              } flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider opacity-80 block">${dayName}</span>
+                  <span class="font-display font-extrabold text-sm">${dayNum}</span>
+                </div>
+                ${
+                  isToday
+                    ? '<span class="px-2 py-0.5 rounded-full bg-jalurGold text-navy-950 text-[9px] font-extrabold uppercase">Today</span>'
+                    : `<span class="text-[11px] font-bold opacity-80">${dayEvents.length}</span>`
+                }
+              </div>
+              <div class="p-2.5 flex-1 flex flex-col gap-2.5">
+                ${cardsHtml}
+              </div>
+            </div>
+          `);
+        }
+
+        periodSub.textContent = `${weekTotal} matching sports event(s) across this 7-day schedule`;
+        document.getElementById('calendar-week-grid').innerHTML = colsHtml.join('');
       }
     }
 
-    function renderEvents() {
-      const searchVal = (document.getElementById('filter-search')?.value || '').toLowerCase().trim();
-      const stateVal = document.getElementById('filter-state')?.value || 'All';
-      const typeVal = document.getElementById('filter-type')?.value || 'All';
-      const sportVal = state.selectedSport;
+    function openDayEventsModal(isoDate) {
+      const events = getFilteredEvents()
+        .filter(ev => ev.event_date === isoDate)
+        .sort((a, b) => (a.event_time || '').localeCompare(b.event_time || ''));
 
-      const filtered = state.events.filter(ev => {
-        const matchesState = stateVal === 'All' || ev.state === stateVal;
-        const matchesType = typeVal === 'All' || ev.type === typeVal;
-        const matchesSport = sportVal === 'All' || ev.sport === sportVal;
-        const matchesSearch =
-          !searchVal ||
-          ev.title.toLowerCase().includes(searchVal) ||
-          ev.city.toLowerCase().includes(searchVal) ||
-          ev.state.toLowerCase().includes(searchVal) ||
-          ev.sport.toLowerCase().includes(searchVal) ||
-          (state.currentUser && ev.venue.toLowerCase().includes(searchVal));
+      document.getElementById('day-modal-title').textContent = formatMalaysianDate(isoDate);
+      const listEl = document.getElementById('day-modal-list');
 
-        return matchesState && matchesType && matchesSport && matchesSearch;
-      });
-
-      document.getElementById('events-showing-count').textContent = filtered.length;
-      const grid = document.getElementById('events-grid');
-
-      if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-10 text-center">
-            <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
-              <i data-lucide="search-x" class="w-6 h-6"></i>
+      listEl.innerHTML = events.map(ev => {
+        const theme = SPORT_BADGE_COLORS[ev.sport] || { dot: 'bg-blue-600', pill: 'bg-blue-50 text-blue-800 border-blue-200' };
+        const feeNum = Number(ev.fee) || 0;
+        return `
+          <div class="rounded-xl border border-slate-200 p-3.5 hover:border-royal-600 transition flex items-start justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-extrabold text-royal-600">${escapeHtml(ev.event_time || '07:30')} hrs</span>
+                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md border text-[10px] font-bold ${theme.pill}">
+                  <span class="w-1.5 h-1.5 rounded-full ${theme.dot}"></span>
+                  ${escapeHtml(ev.sport)}
+                </span>
+                <span class="text-[10px] font-bold text-slate-500">• ${escapeHtml(ev.state)}</span>
+              </div>
+              <h4 class="font-display font-extrabold text-sm text-navy-900">${escapeHtml(ev.title)}</h4>
+              <p class="text-xs text-slate-500">${escapeHtml(ev.venue)}</p>
             </div>
-            <h3 class="font-display font-bold text-base text-navy-900">No matching sports events found</h3>
-            <p class="text-xs text-slate-500 mt-1">Try selecting another Malaysian state or clearing your search filters.</p>
-            <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-xl bg-royal-600 text-white text-xs font-bold hover:bg-blue-700 transition">
-              Show All Events
-            </button>
+            <div class="text-right shrink-0 space-y-2">
+              <div class="text-xs font-extrabold text-navy-900">${feeNum === 0 ? 'Free' : `RM ${feeNum}`}</div>
+              <button
+                type="button"
+                onclick="closeModal('day-events-modal'); openBookingModal('${ev.id}');"
+                class="px-3 py-1.5 rounded-lg bg-royal-600 hover:bg-blue-700 text-white text-xs font-bold transition"
+              >
+                View
+              </button>
+            </div>
           </div>
         `;
+      }).join('');
+
+      document.getElementById('day-events-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+// ... existing code ...
+    // ---------------------------------------------------------
+    // 8. PARTICIPANT REGISTRATION & UNIQUE SMY TICKETS
+    // ---------------------------------------------------------
+    function openBookingModal(eventId) {
+      const ev = appState.events.find(item => item.id === eventId);
+      if (!ev) return;
+
+      const feeNum = Number(ev.fee) || 0;
+      document.getElementById('reg-event-id').value = ev.id;
+      document.getElementById('reg-modal-badge').textContent = `${ev.organizer_type || 'Community'} • ${ev.sport}`;
+      document.getElementById('reg-modal-title').textContent = ev.title;
+      document.getElementById('reg-modal-sport-state').textContent = `${ev.sport} • ${ev.state}`;
+      document.getElementById('reg-modal-fee').textContent = feeNum === 0 ? 'Free' : `RM ${feeNum}`;
+      document.getElementById('reg-modal-datetime').querySelector('span').textContent = `${formatMalaysianDate(ev.event_date)} at ${ev.event_time || '07:30'} hrs`;
+      document.getElementById('reg-modal-venue').querySelector('span').textContent = ev.venue;
+      document.getElementById('reg-modal-organizer').querySelector('span').textContent = `Organized by ${ev.organizer_name || 'SukanMY Member'}`;
+      document.getElementById('reg-modal-desc').textContent = ev.description || '';
+
+      const alreadyBox = document.getElementById('already-registered-box');
+      const guestLoginBox = document.getElementById('guest-modal-login-box');
+      const bookingForm = document.getElementById('event-booking-form');
+
+      if (!appState.currentUser || !appState.userProfile) {
+        alreadyBox.classList.add('hidden');
+        bookingForm.classList.add('hidden');
+        guestLoginBox.classList.remove('hidden');
+        document.getElementById('register-event-modal').classList.remove('hidden');
         lucide.createIcons();
         return;
       }
 
-      const isLoggedIn = Boolean(state.currentUser);
+      guestLoginBox.classList.add('hidden');
 
-      grid.innerHTML = filtered.map(ev => {
-        const theme = SPORT_THEMES[ev.sport] || SPORT_THEMES['Running'];
-        const pct = Math.min(100, Math.round((ev.registered / ev.capacity) * 100));
-        const userTicketCount = isLoggedIn
-          ? state.tickets.filter(t => t.eventId === ev.id && t.userEmail === state.currentUser.email).length
-          : 0;
+      const alreadyBooked = appState.registrations.some(
+        r => r.event_id === ev.id && r.user_id === appState.currentUser.id
+      );
 
-        let typeBadgeClass = 'bg-slate-800/80 text-slate-100 border-slate-600';
-        let typeIcon = 'users';
-        if (ev.type === 'KBS Official') {
-          typeBadgeClass = 'bg-jalurGold text-navy-950 border-amber-300 font-extrabold';
-          typeIcon = 'landmark';
-        } else if (ev.type === 'Verified Organizer') {
-          typeBadgeClass = 'bg-royal-600 text-white border-blue-400 font-bold';
-          typeIcon = 'badge-check';
-        }
-
-        return `
-          <article class="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col">
-            <!-- Card Visual Header -->
-            <div class="bg-gradient-to-br ${theme.gradient} p-4 text-white relative">
-              <div class="flex items-center justify-between gap-2">
-                <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] border ${typeBadgeClass} shadow-sm">
-                  <i data-lucide="${typeIcon}" class="w-3 h-3"></i>
-                  <span>${escapeHtml(ev.type)}</span>
-                </span>
-                <span class="px-2.5 py-1 rounded-lg text-xs font-extrabold ${ev.price === 0 ? 'bg-emerald-500 text-white' : 'bg-white text-navy-900'} shadow-sm">
-                  ${ev.price === 0 ? 'FREE ENTRY' : `RM ${ev.price}`}
-                </span>
-              </div>
-
-              <div class="mt-4 flex items-center gap-2 text-xs text-blue-100 font-semibold">
-                <span class="px-2 py-0.5 rounded bg-white/15 backdrop-blur-xs">${escapeHtml(ev.sport)}</span>
-                <span>•</span>
-                <span class="flex items-center gap-1">
-                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-jalurGold"></i>
-                  ${escapeHtml(ev.state)}
-                </span>
-              </div>
-
-              <h3 class="font-display font-extrabold text-lg text-white leading-snug mt-1.5 line-clamp-2">
-                ${escapeHtml(ev.title)}
-              </h3>
-            </div>
-
-            <!-- Card Body -->
-            <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-              <div class="space-y-2.5">
-                <div class="flex items-center gap-2 text-xs font-semibold text-slate-700">
-                  <i data-lucide="calendar" class="w-4 h-4 text-royal-600 shrink-0"></i>
-                  <span>${formatMalaysianDate(ev.date)} • ${escapeHtml(ev.time)} hrs</span>
-                </div>
-
-                <!-- Gatekeeper Locked vs Unlocked Venue -->
-                ${
-                  isLoggedIn
-                    ? `<div class="flex items-start gap-2 text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-200/80">
-                        <i data-lucide="navigation" class="w-4 h-4 text-jalurRed shrink-0 mt-0.5"></i>
-                        <div>
-                          <div class="font-bold text-navy-900">${escapeHtml(ev.city)}</div>
-                          <div class="text-slate-600 mt-0.5">${escapeHtml(ev.venue)}</div>
-                        </div>
-                      </div>`
-                    : `<div class="relative rounded-xl border border-slate-200 bg-slate-50 p-2.5 overflow-hidden">
-                        <div class="blur-[4px] select-none text-xs text-slate-500">
-                          Dataran Merdeka, Jalan Raja, 50050 Kuala Lumpur • Organizer Contact
-                        </div>
-                        <button onclick="openAuthModal('register')" class="absolute inset-0 bg-white/75 hover:bg-white/90 flex items-center justify-center gap-1.5 text-xs font-bold text-royal-600 transition">
-                          <i data-lucide="lock" class="w-3.5 h-3.5 text-jalurRed"></i>
-                          <span>Sign in to unlock exact venue &amp; details</span>
-                        </button>
-                      </div>`
-                }
-
-                <p class="text-xs text-slate-600 leading-relaxed line-clamp-2">
-                  ${escapeHtml(ev.description)}
-                </p>
-              </div>
-
-              <!-- Capacity & Action Footer -->
-              <div class="pt-3 border-t border-slate-100 space-y-3">
-                <div>
-                  <div class="flex items-center justify-between text-[11px] font-semibold mb-1">
-                    <span class="text-slate-500">By ${escapeHtml(ev.organizer)}</span>
-                    <span class="text-navy-900">${ev.registered.toLocaleString()} / ${ev.capacity.toLocaleString()} slots</span>
-                  </div>
-                  <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-royal-600 rounded-full" style="width: ${pct}%"></div>
-                  </div>
-                </div>
-
-                ${
-                  isLoggedIn
-                    ? `<div class="flex items-center gap-2">
-                        <button onclick="openBookingModal('${ev.id}')" class="flex-1 py-2.5 px-4 rounded-xl bg-royal-600 hover:bg-blue-700 text-white font-bold text-xs transition shadow-sm flex items-center justify-center gap-1.5">
-                          <i data-lucide="ticket" class="w-4 h-4"></i>
-                          <span>${userTicketCount > 0 ? 'Book Another Pass' : 'Register for Event'}</span>
-                        </button>
-                        ${
-                          userTicketCount > 0
-                            ? `<button onclick="switchTab('tickets')" class="px-3 py-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 font-bold text-xs hover:bg-emerald-100 transition" title="View your ticket">
-                                ✓ ${userTicketCount} Pass
-                              </button>`
-                            : ''
-                        }
-                      </div>`
-                    : `<button onclick="openAuthModal('register')" class="w-full py-2.5 px-4 rounded-xl bg-navy-900 hover:bg-slate-800 text-white font-bold text-xs transition flex items-center justify-center gap-1.5">
-                        <i data-lucide="user-plus" class="w-4 h-4 text-jalurGold"></i>
-                        <span>Register to Join Event</span>
-                      </button>`
-                }
-              </div>
-            </div>
-          </article>
-        `;
-      }).join('');
-
-      lucide.createIcons();
-    }
-
-    // ---------------------------------------------------------
-    // 6. POST EVENT PORTAL (PHASE 1 & PHASE 2)
-    // ---------------------------------------------------------
-    function toggleOrganizerFields() {
-      const mode = document.querySelector('input[name="listingMode"]:checked').value;
-      const priceInput = document.getElementById('ev-price');
-      if (mode === 'Verified Organizer' && Number(priceInput.value) === 0) {
-        priceInput.value = 35;
-      } else if (mode === 'Community') {
-        priceInput.value = 0;
-      }
-    }
-
-    function handlePostEvent(e) {
-      e.preventDefault();
-      if (!state.currentUser) {
-        openAuthModal('register');
-        return;
-      }
-
-      const mode = document.querySelector('input[name="listingMode"]:checked').value;
-      const title = document.getElementById('ev-title').value.trim();
-      const sport = document.getElementById('ev-sport').value;
-      const eventState = document.getElementById('ev-state').value;
-      const venue = document.getElementById('ev-venue').value.trim();
-      const date = document.getElementById('ev-date').value;
-      const time = document.getElementById('ev-time').value;
-      const price = Math.max(0, Number(document.getElementById('ev-price').value) || 0);
-      const capacity = Math.max(10, Number(document.getElementById('ev-capacity').value) || 100);
-      const categoriesRaw = document.getElementById('ev-categories').value;
-      const description = document.getElementById('ev-desc').value.trim();
-
-      const eventType = state.currentUser.role === 'kbs' ? 'KBS Official' : mode;
-      const cityPart = venue.split(',')[0] || eventState;
-
-      const newEvent = {
-        id: 'evt-my-' + Date.now(),
-        title,
-        sport,
-        state: eventState,
-        city: cityPart,
-        venue,
-        date,
-        time,
-        type: eventType,
-        price,
-        capacity,
-        registered: 1,
-        organizer: state.currentUser.name,
-        categories: categoriesRaw.split(',').map(c => c.trim()).filter(Boolean),
-        description
-      };
-
-      state.events.unshift(newEvent);
-      saveState();
-
-      document.getElementById('post-event-form').reset();
-      switchTab('discover');
-      renderEvents();
-      renderAnalytics();
-      showToast(`"${title}" is now live on SukanMY (${eventState})!`, 'success');
-    }
-
-    // ---------------------------------------------------------
-    // 7. EVENT REGISTRATION & DIGITAL QR TICKETS (PHASE 2)
-    // ---------------------------------------------------------
-    function openBookingModal(eventId) {
-      if (!state.currentUser) {
-        openAuthModal('register');
-        return;
-      }
-
-      const ev = state.events.find(item => item.id === eventId);
-      if (!ev) return;
-
-      document.getElementById('reg-event-id').value = ev.id;
-      document.getElementById('reg-modal-title').textContent = ev.title;
-      document.getElementById('reg-modal-date').textContent = `${formatMalaysianDate(ev.date)} • ${ev.time} hrs`;
-      document.getElementById('reg-modal-price').textContent = ev.price === 0 ? 'FREE ENTRY' : `RM ${ev.price.toFixed(2)}`;
-      document.getElementById('reg-modal-venue').querySelector('span').textContent = ev.venue;
-      document.getElementById('reg-fullname').value = state.currentUser.name;
-
-      const catSelect = document.getElementById('reg-category');
-      const cats = ev.categories && ev.categories.length ? ev.categories : ['Open Category'];
-      catSelect.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
-
-      const paymentSection = document.getElementById('payment-method-section');
-      const freeNotice = document.getElementById('free-entry-notice');
-      const submitLabel = document.getElementById('reg-submit-label');
-
-      if (ev.price === 0) {
-        paymentSection.classList.add('hidden');
-        freeNotice.classList.remove('hidden');
-        submitLabel.textContent = 'Confirm Free Registration & Get QR Pass';
+      if (alreadyBooked) {
+        alreadyBox.classList.remove('hidden');
+        bookingForm.classList.add('hidden');
       } else {
-        paymentSection.classList.remove('hidden');
-        freeNotice.classList.add('hidden');
-        submitLabel.textContent = `Pay RM ${ev.price.toFixed(2)} & Generate QR E-Ticket`;
+        alreadyBox.classList.add('hidden');
+        bookingForm.classList.remove('hidden');
+        document.getElementById('reg-participant-name').value = appState.userProfile.full_name || '';
+        document.getElementById('reg-note').value = '';
       }
 
       document.getElementById('register-event-modal').classList.remove('hidden');
       lucide.createIcons();
     }
-
-    function handleBookingSubmit(e) {
-      e.preventDefault();
-      if (!state.currentUser) return;
-
-      const eventId = document.getElementById('reg-event-id').value;
-      const ev = state.events.find(item => item.id === eventId);
-      if (!ev) return;
-
-      const participantName = document.getElementById('reg-fullname').value.trim();
-      const category = document.getElementById('reg-category').value;
-      const shirtSize = document.getElementById('reg-size').value;
-      const emergencyContact = document.getElementById('reg-emergency').value.trim();
-      const paymentMethod =
-        ev.price === 0
-          ? 'Free National Pass'
-          : document.querySelector('input[name="paymentMethod"]:checked')?.value || 'DuitNow QR';
-
-      const bookingId = 'SMY-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
-
-      const newTicket = {
-        bookingId,
-        eventId: ev.id,
-        eventTitle: ev.title,
-        sport: ev.sport,
-        state: ev.state,
-        venue: ev.venue,
-        date: ev.date,
-        time: ev.time,
-        price: ev.price,
-        participantName,
-        userEmail: state.currentUser.email,
-        category,
-        shirtSize,
-        emergencyContact,
-        paymentMethod,
-        bookedAt: new Date().toISOString()
-      };
-
-      // Increment event registered count
-      ev.registered += 1;
-
-      state.tickets.unshift(newTicket);
-      saveState();
-
-      closeModal('register-event-modal');
-      updateTicketBadges();
-      renderEvents();
-      renderAnalytics();
-      switchTab('tickets');
-      showToast(`Booking Confirmed! Digital QR Pass ${bookingId} issued.`, 'success');
-    }
-
-    function updateTicketBadges() {
-      const count = state.currentUser
-        ? state.tickets.filter(t => t.userEmail === state.currentUser.email).length
-        : 0;
-
-      const deskBadge = document.getElementById('ticket-count-badge');
-      const mobBadge = document.getElementById('m-ticket-count-badge');
-
-      if (count > 0) {
-        deskBadge.textContent = count;
-        deskBadge.classList.remove('hidden');
-        mobBadge.textContent = count;
-        mobBadge.classList.remove('hidden');
-      } else {
-        deskBadge.classList.add('hidden');
-        mobBadge.classList.add('hidden');
-      }
-    }
-
-    // Deterministic SVG QR Code Pattern Generator (No external API dependency)
-    function generateQrSvg(seedText) {
-      const size = 21;
-      let hash = 0;
-      for (let i = 0; i < seedText.length; i++) {
-        hash = (hash << 5) - hash + seedText.charCodeAt(i);
-        hash |= 0;
-      }
-
-      const isFinder = (r, c) => {
-        const inTopLeft = r < 7 && c < 7;
-        const inTopRight = r < 7 && c >= size - 7;
-        const inBottomLeft = r >= size - 7 && c < 7;
-        return inTopLeft || inTopRight || inBottomLeft;
-      };
-
-      const finderFill = (r, c) => {
-        const lr = r >= size - 7 ? r - (size - 7) : r;
-        const lc = c >= size - 7 ? c - (size - 7) : c;
-        if (lr === 0 || lr === 6 || lc === 0 || lc === 6) return true;
-        if (lr >= 2 && lr <= 4 && lc >= 2 && lc <= 4) return true;
-        return false;
-      };
-
-      let rects = '';
-      for (let r = 0; r < size; r++) {
-        for (let c = 0; c < size; c++) {
-          let filled = false;
-          if (isFinder(r, c)) {
-            filled = finderFill(r, c);
-          } else {
-            const val = Math.abs(Math.sin(hash + r * 31 + c * 17) * 10000);
-            filled = Math.floor(val) % 2 === 0;
-          }
-          if (filled) {
-            rects += `<rect x="${c * 4}" y="${r * 4}" width="4" height="4" fill="#0F172A"/>`;
-          }
-        }
-      }
-
-      return `<svg viewBox="0 0 ${size * 4} ${size * 4}" class="w-28 h-28 bg-white p-1.5 rounded-xl border border-slate-200 shadow-inner">${rects}</svg>`;
-    }
-
-    function copyBookingId(bookingId) {
-      const tempInput = document.createElement('input');
-      tempInput.value = bookingId;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      showToast(`Booking ID ${bookingId} copied to clipboard.`, 'info');
-    }
-
-    function renderTickets() {
-      const list = document.getElementById('tickets-list');
-      if (!state.currentUser) {
-        list.innerHTML = '';
-        return;
-      }
-
-      const myTickets = state.tickets.filter(t => t.userEmail === state.currentUser.email);
-
-      if (myTickets.length === 0) {
-        list.innerHTML = `
-          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-10 text-center">
-            <div class="w-12 h-12 rounded-2xl bg-blue-50 text-royal-600 flex items-center justify-center mx-auto mb-3">
-              <i data-lucide="ticket" class="w-6 h-6"></i>
-            </div>
-            <h3 class="font-display font-bold text-base text-navy-900">No Digital Tickets Yet</h3>
-            <p class="text-xs text-slate-500 mt-1 max-w-md mx-auto">
-              Register for any event in the Discover feed to generate your instant QR E-Ticket with DuitNow / FPX confirmation.
-            </p>
-            <button onclick="switchTab('discover')" class="mt-4 px-5 py-2.5 rounded-xl bg-royal-600 text-white text-xs font-bold hover:bg-blue-700 transition">
-              Explore Malaysian Sports Events
-            </button>
-          </div>
-        `;
-        lucide.createIcons();
-        return;
-      }
-
-      list.innerHTML = myTickets.map(t => `
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-          <div class="bg-navy-900 px-5 py-3.5 text-white flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="px-2 py-0.5 rounded bg-jalurGold text-navy-950 text-[10px] font-extrabold uppercase">Confirmed Pass</span>
-              <span class="text-xs font-mono text-slate-300">${escapeHtml(t.bookingId)}</span>
-            </div>
-            <button onclick="copyBookingId('${escapeHtml(t.bookingId)}')" class="text-xs text-blue-300 hover:text-white flex items-center gap-1 font-semibold">
-              <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-              <span>Copy ID</span>
-            </button>
-          </div>
-
-          <div class="p-5 flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 ticket-cutout">
-            <div class="space-y-2 flex-1">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-royal-600">${escapeHtml(t.sport)} • ${escapeHtml(t.state)}</span>
-              <h3 class="font-display font-extrabold text-lg text-navy-900 leading-snug">${escapeHtml(t.eventTitle)}</h3>
-              <p class="text-xs text-slate-600 flex items-center gap-1.5">
-                <i data-lucide="calendar" class="w-3.5 h-3.5 text-slate-400"></i>
-                <span>${formatMalaysianDate(t.date)} • ${escapeHtml(t.time)} hrs</span>
-              </p>
-              <p class="text-xs text-slate-500 flex items-start gap-1.5">
-                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-jalurRed shrink-0 mt-0.5"></i>
-                <span>${escapeHtml(t.venue)}</span>
-              </p>
-
-              <div class="pt-2 grid grid-cols-2 gap-2 text-xs border-t border-dashed border-slate-200">
-                <div>
-                  <span class="text-[10px] uppercase text-slate-400 font-bold block">Participant</span>
-                  <span class="font-bold text-navy-900">${escapeHtml(t.participantName)}</span>
-                </div>
-                <div>
-                  <span class="text-[10px] uppercase text-slate-400 font-bold block">Category &amp; Kit</span>
-                  <span class="font-semibold text-slate-700">${escapeHtml(t.category)} (${escapeHtml(t.shirtSize)})</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex flex-col items-center shrink-0 self-center bg-slate-50 p-3 rounded-2xl border border-slate-200/80">
-              ${generateQrSvg(t.bookingId + t.participantName)}
-              <span class="text-[10px] font-mono font-bold text-slate-600 mt-1.5">${escapeHtml(t.bookingId)}</span>
-              <span class="text-[10px] text-emerald-600 font-bold mt-0.5">${t.price === 0 ? 'FREE PASS' : `PAID RM ${t.price} (${escapeHtml(t.paymentMethod)})`}</span>
-            </div>
-          </div>
-        </div>
-      `).join('');
-
-      lucide.createIcons();
-    }
-
-    // ---------------------------------------------------------
-    // 8. KBS EXECUTIVE ANALYTICS ENGINE
-    // ---------------------------------------------------------
-    function renderAnalytics() {
-      const totalEvents = state.events.length;
-      const totalParticipants = state.events.reduce((sum, ev) => sum + ev.registered, 0);
-      const totalEconomyRM = state.events.reduce((sum, ev) => sum + ev.registered * ev.price, 0);
-
-      document.getElementById('kpi-users').textContent = state.baseUsersCount.toLocaleString();
-      document.getElementById('kpi-events').textContent = totalEvents.toLocaleString();
-      document.getElementById('kpi-participants').textContent = totalParticipants.toLocaleString();
-      document.getElementById('kpi-economy').textContent = 'RM ' + totalEconomyRM.toLocaleString();
-
-      // Aggregate by State
-      const stateMap = {};
-      state.events.forEach(ev => {
-        if (!stateMap[ev.state]) {
-          stateMap[ev.state] = { events: 0, participants: 0 };
-        }
-        stateMap[ev.state].events += 1;
-        stateMap[ev.state].participants += ev.registered;
-      });
-
-      const sortedStates = Object.entries(stateMap).sort((a, b) => b[1].participants - a[1].participants);
-      const maxParticipants = sortedStates.length ? sortedStates[0][1].participants : 1;
-
-      const stateChart = document.getElementById('state-breakdown-chart');
-      stateChart.innerHTML = sortedStates
-        .map(([stName, data]) => {
-          const widthPct = Math.max(8, Math.round((data.participants / maxParticipants) * 100));
-          return `
-            <div>
-              <div class="flex items-center justify-between text-xs font-semibold mb-1">
-                <span class="text-navy-900 font-bold">${escapeHtml(stName)}</span>
-                <span class="text-slate-600">${data.events} event${data.events > 1 ? 's' : ''} • <strong class="text-royal-600">${data.participants.toLocaleString()} pax</strong></span>
-              </div>
-              <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-royal-600 to-blue-500 rounded-full transition-all duration-500" style="width: ${widthPct}%"></div>
-              </div>
-            </div>
-          `;
-        })
-        .join('');
-
-      // Aggregate by Sport
-      const sportMap = {};
-      state.events.forEach(ev => {
-        sportMap[ev.sport] = (sportMap[ev.sport] || 0) + ev.registered;
-      });
-
-      const sortedSports = Object.entries(sportMap).sort((a, b) => b[1] - a[1]);
-      const sportColors = ['bg-royal-600', 'bg-jalurRed', 'bg-jalurGold', 'bg-emerald-600', 'bg-indigo-600', 'bg-cyan-600', 'bg-slate-700'];
-
-      const sportChart = document.getElementById('sport-breakdown-chart');
-      sportChart.innerHTML = sortedSports
-        .map(([spName, pax], idx) => {
-          const sharePct = totalParticipants > 0 ? Math.round((pax / totalParticipants) * 100) : 0;
-          const barColor = sportColors[idx % sportColors.length];
-          return `
-            <div>
-              <div class="flex items-center justify-between text-xs mb-1">
-                <span class="font-bold text-navy-900">${escapeHtml(spName)}</span>
-                <span class="text-slate-500 font-semibold">${pax.toLocaleString()} (${sharePct}%)</span>
-              </div>
-              <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full ${barColor} rounded-full" style="width: ${Math.max(5, sharePct)}%"></div>
-              </div>
-            </div>
-          `;
-        })
-        .join('');
-    }
-
-    // ---------------------------------------------------------
-    // 9. UTILITIES (TOASTS, GITHUB GUIDE, RESET, ESCAPING)
-    // ---------------------------------------------------------
-    function openGithubGuideModal() {
-      document.getElementById('github-modal').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function resetDemoData() {
-      localStorage.removeItem(STORAGE_KEYS.EVENTS);
-      localStorage.removeItem(STORAGE_KEYS.TICKETS);
-      localStorage.removeItem(STORAGE_KEYS.BASE_USERS);
-      state.events = [...INITIAL_EVENTS];
-      state.tickets = [];
-      state.baseUsersCount = 14820;
-      saveState();
-      updateUIForAuth();
-      showToast('Demo events and analytics restored to default national dataset.', 'info');
-    }
-
-    function showToast(message, type = 'info') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-
-      const styles = {
-        success: 'bg-navy-900 border-emerald-500 text-white',
-        info: 'bg-navy-900 border-royal-600 text-white',
-        warning: 'bg-navy-900 border-jalurGold text-white'
-      };
-
-      const iconNames = {
-        success: 'check-circle-2',
-        info: 'info',
-        warning: 'alert-circle'
-      };
-
-      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border-l-4 shadow-xl text-xs font-semibold animate-fade-in ${styles[type] || styles.info}`;
-      toast.innerHTML = `
-        <i data-lucide="${iconNames[type] || 'info'}" class="w-4 h-4 text-jalurGold shrink-0"></i>
-        <span class="flex-1">${escapeHtml(message)}</span>
-      `;
-
-      container.appendChild(toast);
-      lucide.createIcons();
-
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, 3600);
-    }
-
-    function escapeHtml(str) {
-      if (str === null || str === undefined) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
-
-    // Set default date in Post Event form to 14 days from today
-    function setDefaultPostDate() {
-      const dateInput = document.getElementById('ev-date');
-      if (dateInput) {
-        const future = new Date();
-        future.setDate(future.getDate() + 14);
-        dateInput.value = future.toISOString().split('T')[0];
-      }
-    }
-
-    // Initialize Application
-    window.addEventListener('DOMContentLoaded', () => {
-      loadState();
-      renderSportPills();
-      setDefaultPostDate();
-      updateUIForAuth();
-      lucide.createIcons();
-    });
-  </script>
-</body>
-</html>
+// ... existing code ...
